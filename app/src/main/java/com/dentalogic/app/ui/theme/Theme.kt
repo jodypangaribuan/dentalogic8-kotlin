@@ -5,55 +5,55 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
-private val BabyBlueLightColorScheme = lightColorScheme(
-    primary = BabyBluePrimaryLight,
-    onPrimary = BabyBlueOnPrimaryLight,
-    primaryContainer = BabyBluePrimaryContainerLight,
-    onPrimaryContainer = BabyBlueOnPrimaryContainerLight,
-    secondary = BabyBlueSecondaryLight,
-    onSecondary = BabyBlueOnSecondaryLight,
-    secondaryContainer = BabyBlueSecondaryContainerLight,
-    onSecondaryContainer = BabyBlueOnSecondaryContainerLight,
-    tertiary = BabyBlueTertiaryLight,
-    onTertiary = BabyBlueOnTertiaryLight,
-    tertiaryContainer = BabyBlueTertiaryContainerLight,
-    onTertiaryContainer = BabyBlueOnTertiaryContainerLight,
-    background = BabyBlueBackgroundLight,
-    onBackground = BabyBlueOnBackgroundLight,
-    surface = BabyBlueSurfaceLight,
-    onSurface = BabyBlueOnSurfaceLight,
-    surfaceContainer = BabyBlueSurfaceContainerLight,
-    surfaceVariant = BabyBlueSurfaceVariantLight,
-    onSurfaceVariant = BabyBlueOnSurfaceVariantLight,
-    outline = BabyBlueOutlineLight,
+private val SkyLightColorScheme = lightColorScheme(
+    primary = SkyPrimaryLight,
+    onPrimary = SkyOnPrimaryLight,
+    primaryContainer = SkyPrimaryContainerLight,
+    onPrimaryContainer = SkyOnPrimaryContainerLight,
+    secondary = SkySecondaryLight,
+    onSecondary = SkyOnSecondaryLight,
+    secondaryContainer = SkySecondaryContainerLight,
+    onSecondaryContainer = SkyOnSecondaryContainerLight,
+    tertiary = SkyTertiaryLight,
+    onTertiary = SkyOnTertiaryLight,
+    tertiaryContainer = SkyTertiaryContainerLight,
+    onTertiaryContainer = SkyOnTertiaryContainerLight,
+    background = SkyBackgroundLight,
+    onBackground = SkyOnBackgroundLight,
+    surface = SkySurfaceLight,
+    onSurface = SkyOnSurfaceLight,
+    surfaceContainer = SkySurfaceContainerLight,
+    surfaceVariant = SkySurfaceVariantLight,
+    onSurfaceVariant = SkyOnSurfaceVariantLight,
+    outline = SkyOutlineLight,
 )
 
-private val BabyBlueDarkColorScheme = darkColorScheme(
-    primary = BabyBluePrimaryDark,
-    onPrimary = BabyBlueOnPrimaryDark,
-    primaryContainer = BabyBluePrimaryContainerDark,
-    onPrimaryContainer = BabyBlueOnPrimaryContainerDark,
-    secondary = BabyBlueSecondaryDark,
-    onSecondary = BabyBlueOnSecondaryDark,
-    secondaryContainer = BabyBlueSecondaryContainerDark,
-    onSecondaryContainer = BabyBlueOnSecondaryContainerDark,
-    tertiary = BabyBlueTertiaryDark,
-    onTertiary = BabyBlueOnTertiaryDark,
-    tertiaryContainer = BabyBlueTertiaryContainerDark,
-    onTertiaryContainer = BabyBlueOnTertiaryContainerDark,
-    background = BabyBlueBackgroundDark,
-    onBackground = BabyBlueOnBackgroundDark,
-    surface = BabyBlueSurfaceDark,
-    onSurface = BabyBlueOnSurfaceDark,
-    surfaceContainer = BabyBlueSurfaceContainerDark,
-    surfaceVariant = BabyBlueSurfaceVariantDark,
-    onSurfaceVariant = BabyBlueOnSurfaceVariantDark,
-    outline = BabyBlueOutlineDark,
+private val SkyDarkColorScheme = darkColorScheme(
+    primary = SkyPrimaryDark,
+    onPrimary = SkyOnPrimaryDark,
+    primaryContainer = SkyPrimaryContainerDark,
+    onPrimaryContainer = SkyOnPrimaryContainerDark,
+    secondary = SkySecondaryDark,
+    onSecondary = SkyOnSecondaryDark,
+    secondaryContainer = SkySecondaryContainerDark,
+    onSecondaryContainer = SkyOnSecondaryContainerDark,
+    tertiary = SkyTertiaryDark,
+    onTertiary = SkyOnTertiaryDark,
+    tertiaryContainer = SkyTertiaryContainerDark,
+    onTertiaryContainer = SkyOnTertiaryContainerDark,
+    background = SkyBackgroundDark,
+    onBackground = SkyOnBackgroundDark,
+    surface = SkySurfaceDark,
+    onSurface = SkyOnSurfaceDark,
+    surfaceContainer = SkySurfaceContainerDark,
+    surfaceVariant = SkySurfaceVariantDark,
+    onSurfaceVariant = SkyOnSurfaceVariantDark,
+    outline = SkyOutlineDark,
 )
 
 /**
- * App theme for Dentalogic.
- * Always utilizes the distinctive, fresh Baby Blue palette across light and dark modes.
+ * App theme for Dentalogic8.
+ * Utilizes Option 3: Tailwind Sky Blue palette (#0284C7 & #E0F2FE) across light and dark modes.
  */
 @Composable
 fun DentalogicTheme(
@@ -61,7 +61,7 @@ fun DentalogicTheme(
     content: @Composable () -> Unit,
 ) {
     val darkTheme = appTheme.isDark()
-    val colorScheme = if (darkTheme) BabyBlueDarkColorScheme else BabyBlueLightColorScheme
+    val colorScheme = if (darkTheme) SkyDarkColorScheme else SkyLightColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,
