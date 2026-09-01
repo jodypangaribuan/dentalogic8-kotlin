@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            var currentTheme by remember { mutableStateOf(AppTheme.SYSTEM) }
+            var currentTheme by remember { mutableStateOf(AppTheme.LIGHT) }
 
             DentalogicTheme(appTheme = currentTheme) {
                 MainScreen(

@@ -59,7 +59,7 @@ private val SkyDarkColorScheme = darkColorScheme(
  */
 @Composable
 fun DentalogicTheme(
-    appTheme: AppTheme = AppTheme.SYSTEM,
+    appTheme: AppTheme = AppTheme.LIGHT,
     content: @Composable () -> Unit,
 ) {
     val darkTheme = appTheme.isDark()
