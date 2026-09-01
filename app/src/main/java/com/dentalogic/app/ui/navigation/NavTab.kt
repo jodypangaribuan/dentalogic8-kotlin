@@ -21,6 +21,6 @@ enum class NavTab(
     HOME(R.string.nav_home, drawableRes = R.drawable.ic_nav_home),
     SCAN(R.string.nav_scan, drawableRes = R.drawable.ic_scan_hero),
     HISTORY(R.string.nav_history, drawableRes = R.drawable.ic_nav_history),
-    GUIDE(R.string.nav_guide, icon = Icons.AutoMirrored.Rounded.MenuBook),
+    GUIDE(R.string.nav_guide, drawableRes = R.drawable.ic_nav_guide),
     PROFILE(R.string.nav_profile, icon = Icons.Rounded.Person),
 }
