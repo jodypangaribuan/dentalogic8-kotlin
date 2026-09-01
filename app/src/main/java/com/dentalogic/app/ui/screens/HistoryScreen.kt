@@ -63,7 +63,7 @@ fun HistoryScreen(contentPadding: PaddingValues) {
         item(key = "header") {
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
                 Text(
-                    text = "Examination History",
+                    text = "Scan History",
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold,
@@ -95,7 +95,7 @@ fun HistoryScreen(contentPadding: PaddingValues) {
                         )
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            text = "No Examination Records",
+                            text = "No Scan Records",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurface,
