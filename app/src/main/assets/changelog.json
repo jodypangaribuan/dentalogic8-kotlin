@@ -1,30 +1,61 @@
 [
   {
-    "version": "1.0.0",
-    "description": "Material 3 Expressive UI & Clean Architecture Overhaul",
+    "version": "2.0.0",
+    "description": "Native Kotlin Android Rebuild & Material 3 Expressive UI",
     "features": [
-      "Migrated to clean feature-based architecture with Material 3 Expressive design system.",
-      "Added floating Expressive navigation bar with fluid spring pill transitions.",
-      "Edge-to-edge layout with adaptive top and bottom gradient scrims.",
-      "Branded Dentalogic tooth splash screen and adaptive launcher icons.",
-      "Full English localization across all UI, clinical guides, and domain models.",
-      "Profile screen with real-time System / Light / Dark theme switcher and project links.",
-      "Real-time YOLOv12 ONNX inference engine with ICDAS D0-D6 caries classification.",
-      "Live CameraX analyzer with real-time bounding box overlay and metrics chip.",
-      "Comprehensive ICDAS classification guide and local scan history storage."
+      "Complete native Android rewrite in Kotlin with Jetpack Compose.",
+      "Material 3 Expressive UI design system with floating pill navigation bar and spring physics.",
+      "Edge-to-edge layout with adaptive gradient status and navigation scrims.",
+      "Real-time YOLOv12 ONNX Runtime inference engine with ICDAS D0-D6 caries classification.",
+      "Live CameraX analyzer with real-time bounding box overlay and inference performance metrics.",
+      "System, Light, and Dark dynamic theme switcher.",
+      "Custom branded Dentalogic tooth launcher icon and Android 12+ splash screen theme."
     ],
     "bugfixes": [
-      "Optimized camera frame analyzer lifecycle to eliminate memory leaks.",
-      "Replaced generic Android robot startup splash screen with branded vector theme."
+      "Eliminated camera preview memory leaks and stabilized ONNX session lifecycle.",
+      "Optimized asset packaging with noCompress rules for model stability."
     ]
   },
   {
-    "version": "0.9.0",
-    "description": "Initial Beta - Core Detection & Camera Pipeline",
+    "version": "1.2.0",
+    "description": "Analysis History Management & Inference Upgrades",
     "features": [
-      "Integrated YOLO ONNX model using Microsoft ONNX Runtime Android SDK.",
-      "CameraX integration with live video frame capture.",
-      "ICDAS D0 to D6 caries classification scale mapping."
+      "Implemented comprehensive analysis history management with detailed card view.",
+      "Integrated upgraded local inference models with multi-class detection."
+    ],
+    "bugfixes": []
+  },
+  {
+    "version": "1.1.0",
+    "description": "Unified Prediction Service & Bounding Box Rendering",
+    "features": [
+      "Implemented local inference model and unified prediction service.",
+      "Enhanced real-time scan detection and captured image analysis with improved bounding box rendering."
+    ],
+    "bugfixes": []
+  },
+  {
+    "version": "1.0.0",
+    "description": "Real-Time Scan & Initial Stable Release",
+    "features": [
+      "Integrated real-time camera scan pipeline for caries detection.",
+      "Baseline UI and navigation workflows."
+    ],
+    "bugfixes": []
+  },
+  {
+    "version": "0.5.0",
+    "description": "UI & Verification Check Enhancements",
+    "features": [
+      "Updated UI components and enhanced system diagnostic checks."
+    ],
+    "bugfixes": []
+  },
+  {
+    "version": "0.2.0",
+    "description": "AI-Powered Scanning & History Features",
+    "features": [
+      "Added AI-powered scanning pipeline and initial scan history storage."
     ],
     "bugfixes": []
   },
@@ -32,7 +63,7 @@
     "version": "0.1.0",
     "description": "Initial Project Initialization",
     "features": [
-      "Initial project repository setup, Gradle version catalog, and baseline dependencies."
+      "Initial repository commit and baseline project setup."
     ],
     "bugfixes": []
   }

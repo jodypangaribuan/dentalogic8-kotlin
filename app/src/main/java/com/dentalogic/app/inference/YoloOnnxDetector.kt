@@ -10,7 +10,7 @@ import com.dentalogic.app.core.DetectionResult
 import java.nio.FloatBuffer
 
 /**
- * YOLO ONNX runtime detector for dental caries classification and localization.
+ * YOLOv12 ONNX runtime detector for dental caries classification and localization.
  */
 class YoloOnnxDetector(context: Context) {
 
