@@ -1,20 +1,69 @@
 <resources>
     <string name="app_name">Dentalogic</string>
+    <string name="app_tagline">An AI-powered on-device dental caries detection and ICDAS classification</string>
+    <string name="app_icon_description">Dentalogic icon</string>
+
+    <string name="back">Back</string>
+
+    <!-- Navigation -->
     <string name="nav_home">Beranda</string>
     <string name="nav_scan">Pindai</string>
     <string name="nav_history">Riwayat</string>
     <string name="nav_guide">Panduan</string>
-    <string name="nav_profile">Profil</string>
+    <string name="nav_profile">Profile</string>
 
-    <!-- Theme Strings -->
-    <string name="theme_title">Tema Aplikasi</string>
-    <string name="theme_system">Sistem</string>
-    <string name="theme_light">Terang</string>
-    <string name="theme_dark">Gelap</string>
+    <!-- Profile Tab -->
+    <string name="profile_theme">Theme</string>
+    <string name="profile_version">Version</string>
+    <string name="profile_version_subtitle">See what\'s new in this build</string>
+    <string name="version_beta">Beta</string>
+    <string name="profile_permissions_title">Permission details</string>
+    <string name="profile_permissions_subtitle">What each permission is for, and what it is not</string>
+    <string name="profile_testing_title">Testing triggers</string>
+    <string name="profile_testing_subtitle">Try camera detections and test cases</string>
+    <string name="profile_export_title">Import/Export settings</string>
+    <string name="profile_export_description">Export or backup your history and settings to a JSON file</string>
+    <string name="profile_export_export">Export</string>
+    <string name="profile_export_import">Import</string>
+    <string name="profile_github_title">Open GitHub repository</string>
+    <string name="profile_github_subtitle">View the source code and releases</string>
+    <string name="profile_github_project_url">https://github.com/EvanKoe/expressive-cutout</string>
+    <string name="profile_github_url">https://github.com/EvanKoe</string>
+    <string name="profile_linkedin_url">https://www.linkedin.com/in/evan-koehler-it/</string>
+    <string name="dev_card_author">Made by Evan Koehler &amp; Dentalogic Team</string>
+    <string name="dev_card_github">View on GitHub</string>
+    <string name="dev_card_linkedin">LinkedIn</string>
+    <string name="dev_card_avatar">Photo of the developer</string>
+    <string name="profile_coffee_title">Buy me a coffee</string>
+    <string name="profile_coffee_subtitle">Support the developer</string>
+    <string name="profile_coffee_url">https://buymeacoffee.com/evankoe</string>
 
-    <!-- Profile Sections -->
-    <string name="profile_app_version">Versi Aplikasi</string>
-    <string name="profile_privacy">Privasi &amp; Keamanan Data</string>
-    <string name="profile_about_title">Tentang Dentalogic</string>
-    <string name="profile_about_desc">Aplikasi AI mobile untuk klasifikasi karies gigi secara instan dan mandiri menggunakan model computer vision YOLOv11 berbasis standar klinis ICDAS.</string>
+    <!-- Theme -->
+    <string name="theme_title">Theme</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
+    <!-- Changelog -->
+    <string name="changelog_title">What\'s new</string>
+    <string name="changelog_subtitle">Newest first. Release notes and updates.</string>
+    <string name="changelog_features">Features</string>
+    <string name="changelog_fixes">Bug fixes</string>
+
+    <!-- Permission details -->
+    <string name="permission_details_optional">Optional</string>
+    <string name="permission_details_intro">Dentalogic processes all detections locally on-device. Here is exactly what each permission is used for. The app holds no internet permission, so nothing is uploaded.</string>
+    <string name="permission_details_uses">What it is used for</string>
+    <string name="permission_details_footer_title">Check it yourself</string>
+    <string name="permission_details_footer">Every permission above is declared in the manifest, and you can verify that no network calls are ever made.</string>
+
+    <!-- Export Toast -->
+    <string name="export_to_path">Settings saved to</string>
+    <string name="export_failed">Export failed</string>
+    <string name="import_success">Settings imported</string>
+    <string name="import_invalid">Not a valid settings file</string>
+    <string name="import_failed">Import failed</string>
+
+    <!-- Testing -->
+    <string name="action_send_test_double">Test detection trigger</string>
 </resources>
