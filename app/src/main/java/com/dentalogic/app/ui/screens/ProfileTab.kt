@@ -201,17 +201,15 @@ private fun DevCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 24.dp),
+                .padding(horizontal = 20.dp, vertical = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            DevAvatar()
-
             Text(
                 text = stringResource(R.string.dev_card_author),
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Medium,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(vertical = 20.dp),
+                modifier = Modifier.padding(bottom = 16.dp),
             )
 
             FlowRow(
@@ -239,18 +237,6 @@ private fun DevCard(
             }
         }
     }
-}
-
-@Composable
-private fun DevAvatar() {
-    Image(
-        painter = painterResource(R.drawable.dev_avatar),
-        contentDescription = stringResource(R.string.dev_card_avatar),
-        contentScale = ContentScale.Crop,
-        modifier = Modifier
-            .size(112.dp)
-            .clip(RoundedCornerShape(28.dp)),
-    )
 }
 
 @Composable
