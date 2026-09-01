@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Dentalogic</string>
+    <string name="nav_home">Beranda</string>
+    <string name="nav_scan">Pindai</string>
+    <string name="nav_history">Riwayat</string>
+    <string name="nav_guide">Panduan</string>
+    <string name="nav_profile">Profil</string>
+
+    <!-- Theme Strings -->
+    <string name="theme_title">Tema Aplikasi</string>
+    <string name="theme_system">Sistem</string>
+    <string name="theme_light">Terang</string>
+    <string name="theme_dark">Gelap</string>
+
+    <!-- Profile Sections -->
+    <string name="profile_app_version">Versi Aplikasi</string>
+    <string name="profile_privacy">Privasi &amp; Keamanan Data</string>
+    <string name="profile_about_title">Tentang Dentalogic</string>
+    <string name="profile_about_desc">Aplikasi AI mobile untuk klasifikasi karies gigi secara instan dan mandiri menggunakan model computer vision YOLOv11 berbasis standar klinis ICDAS.</string>
+</resources>
