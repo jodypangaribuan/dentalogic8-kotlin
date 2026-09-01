@@ -32,9 +32,10 @@ class ScanHistoryRepository(context: Context) {
 
     /**
      * Retrieves all saved scan records in reverse chronological order.
+     * Returns empty list if no user scans have occurred yet.
      */
     fun getRecords(): List<ScanRecord> {
-        val jsonStr = prefs.getString("records_json", null) ?: return getSampleRecords()
+        val jsonStr = prefs.getString("records_json", null) ?: return emptyList()
         return try {
             val jsonArray = JSONArray(jsonStr)
             val list = mutableListOf<ScanRecord>()
@@ -60,7 +61,7 @@ class ScanHistoryRepository(context: Context) {
             }
             list.sortedByDescending { it.timestamp }
         } catch (_: Exception) {
-            getSampleRecords()
+            emptyList()
         }
     }
 
@@ -125,37 +126,10 @@ class ScanHistoryRepository(context: Context) {
         prefs.edit().putString("records_json", jsonArray.toString()).apply()
     }
 
-    private fun getSampleRecords(): List<ScanRecord> {
-        val now = System.currentTimeMillis()
-        val format = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
-        return listOf(
-            ScanRecord(
-                id = "SCAN_1",
-                timestamp = now - 3600000 * 2,
-                dateFormatted = format.format(Date(now - 3600000 * 2)),
-                totalDetections = 4,
-                highestSeverity = "D2",
-                cariesCounts = mapOf("D0" to 2, "D1" to 1, "D2" to 1),
-                riskLevel = "Medium",
-            ),
-            ScanRecord(
-                id = "SCAN_2",
-                timestamp = now - 86400000 * 1,
-                dateFormatted = format.format(Date(now - 86400000 * 1)),
-                totalDetections = 2,
-                highestSeverity = "D0",
-                cariesCounts = mapOf("D0" to 2),
-                riskLevel = "Low",
-            ),
-            ScanRecord(
-                id = "SCAN_3",
-                timestamp = now - 86400000 * 3,
-                dateFormatted = format.format(Date(now - 86400000 * 3)),
-                totalDetections = 6,
-                highestSeverity = "D4",
-                cariesCounts = mapOf("D0" to 3, "D2" to 2, "D4" to 1),
-                riskLevel = "High",
-            ),
-        )
+    /**
+     * Clears all stored scan records.
+     */
+    fun clearRecords() {
+        prefs.edit().remove("records_json").apply()
     }
 }
