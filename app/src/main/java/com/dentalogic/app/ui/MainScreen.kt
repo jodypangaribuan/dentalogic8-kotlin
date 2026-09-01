@@ -38,13 +38,18 @@ import com.dentalogic.app.ui.navigation.NavTab
 import com.dentalogic.app.ui.screens.GuideScreen
 import com.dentalogic.app.ui.screens.HistoryScreen
 import com.dentalogic.app.ui.screens.HomeScreen
+import com.dentalogic.app.ui.screens.ProfileScreen
 import com.dentalogic.app.ui.screens.ScanScreen
+import com.dentalogic.app.ui.theme.AppTheme
 
 /**
  * Root of the in-app UI: contains top & bottom gradient scrims and the floating expressive navigation bar.
  */
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    currentTheme: AppTheme,
+    onThemeChange: (AppTheme) -> Unit,
+) {
     var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
     val tabs = NavTab.entries
     val currentTab = tabs[selectedIndex]
@@ -84,6 +89,11 @@ fun MainScreen() {
                     NavTab.SCAN -> ScanScreen(contentPadding = contentPadding)
                     NavTab.HISTORY -> HistoryScreen(contentPadding = contentPadding)
                     NavTab.GUIDE -> GuideScreen(contentPadding = contentPadding)
+                    NavTab.PROFILE -> ProfileScreen(
+                        contentPadding = contentPadding,
+                        currentTheme = currentTheme,
+                        onThemeChange = onThemeChange,
+                    )
                 }
             }
 
