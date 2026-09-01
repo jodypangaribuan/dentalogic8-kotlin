@@ -1,19 +1,33 @@
 [
   {
+    "version": "2.1.0",
+    "description": "Full-Screen Viewfinder, Navigation Polish & Stability Fixes",
+    "features": [
+      "Transformed realtime scan into a clean, unobstructed full-screen viewfinder.",
+      "Added context-aware floating Back Navigation Bar for Scan screen with Android Predictive Back gesture.",
+      "Adopted custom Tailwind Sky Blue brand theme with an eye-friendly, anti-glare Dark Mode.",
+      "Standardized all copywriting, resources, and documentation to Dentalogic8.",
+      "Enhanced live camera controls with instant flashlight torch and camera switcher."
+    ],
+    "bugfixes": [
+      "Fixed native ONNX Runtime race conditions and SIGSEGV crashes on back navigation.",
+      "Fixed CameraX recomposition unbind loop and crash when switching tabs.",
+      "Implemented synchronized multi-stage teardown to eliminate camera preview leaks.",
+      "Adjusted dark mode contrast to eliminate harsh visual glare."
+    ]
+  },
+  {
     "version": "2.0.0",
     "description": "Native Kotlin Android Rebuild & Material 3 Expressive UI",
     "features": [
       "Complete native Android rewrite in Kotlin with Jetpack Compose.",
       "Material 3 Expressive UI design system with floating pill navigation bar and spring physics.",
-      "Edge-to-edge layout with adaptive top and bottom gradient scrims.",
       "Real-time YOLOv12 ONNX Runtime inference engine with ICDAS D0-D6 caries classification.",
-      "Live CameraX analyzer with real-time bounding box overlay and inference performance metrics.",
-      "System, Light, and Dark dynamic theme switcher with Baby Blue brand palette.",
+      "Edge-to-edge layout with adaptive top and bottom gradient scrims.",
       "Custom branded Dentalogic8 tooth launcher icon and Android 12+ splash screen theme."
     ],
     "bugfixes": [
-      "Eliminated camera preview memory leaks and stabilized ONNX session lifecycle.",
-      "Optimized asset packaging with noCompress rules for model stability."
+      "Stabilized ONNX session lifecycle and optimized asset packaging rules."
     ]
   },
   {

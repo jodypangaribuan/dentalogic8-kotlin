@@ -174,11 +174,12 @@ private fun AppHeader() {
                 .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center,
         ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_tooth),
+            Image(
+                painter = painterResource(R.drawable.app_logo),
                 contentDescription = stringResource(R.string.app_icon_description),
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(56.dp),
+                modifier = Modifier
+                    .size(84.dp)
+                    .clip(CircleShape),
             )
         }
         Text(

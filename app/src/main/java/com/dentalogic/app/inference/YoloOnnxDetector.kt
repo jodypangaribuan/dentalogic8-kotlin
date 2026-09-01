@@ -6,16 +6,20 @@ import ai.onnxruntime.OrtSession
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.RectF
+import android.util.Log
 import com.dentalogic.app.core.DetectionResult
 import java.nio.FloatBuffer
 
 /**
  * YOLOv12 ONNX runtime detector for dental caries classification and localization.
+ * Thread-safe with robust lifecycle guard to prevent native crashes on exit.
  */
 class YoloOnnxDetector(context: Context) {
 
     private val ortEnv: OrtEnvironment = OrtEnvironment.getEnvironment()
     private var ortSession: OrtSession? = null
+    @Volatile
+    private var isClosed: Boolean = false
 
     companion object {
         const val MODEL_INPUT_SIZE = 640
@@ -33,15 +37,18 @@ class YoloOnnxDetector(context: Context) {
             }
             ortSession = ortEnv.createSession(modelBytes, sessionOptions)
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("YoloOnnxDetector", "Failed to initialize ONNX model session", e)
         }
     }
 
     /**
      * Runs inference on the input bitmap and returns bounding boxes of detected caries.
      */
+    @Synchronized
     fun detect(bitmap: Bitmap): List<DetectionResult> {
+        if (isClosed) return emptyList()
         val session = ortSession ?: return emptyList()
+
         val resizedBitmap = if (bitmap.width != MODEL_INPUT_SIZE || bitmap.height != MODEL_INPUT_SIZE) {
             Bitmap.createScaledBitmap(bitmap, MODEL_INPUT_SIZE, MODEL_INPUT_SIZE, true)
         } else {
@@ -51,17 +58,28 @@ class YoloOnnxDetector(context: Context) {
         val floatBuffer = bitmapToFloatBuffer(resizedBitmap)
         val inputShape = longArrayOf(1, 3, MODEL_INPUT_SIZE.toLong(), MODEL_INPUT_SIZE.toLong())
 
-        val inputTensor = OnnxTensor.createTensor(ortEnv, floatBuffer, inputShape)
-
+        var inputTensor: OnnxTensor? = null
         try {
+            if (isClosed) return emptyList()
+            inputTensor = OnnxTensor.createTensor(ortEnv, floatBuffer, inputShape)
+
             val inputName = session.inputNames.iterator().next()
             val outputResults = session.run(mapOf(inputName to inputTensor))
 
+            if (outputResults == null || outputResults.size() == 0) return emptyList()
+
             @Suppress("UNCHECKED_CAST")
-            val outputTensor = outputResults.get(0).value as Array<Array<FloatArray>>
+            val outputTensor = outputResults.get(0).value as? Array<Array<FloatArray>> ?: return emptyList()
             return processYoloOutput(outputTensor, bitmap.width, bitmap.height)
+        } catch (e: Exception) {
+            if (!isClosed) {
+                Log.e("YoloOnnxDetector", "Inference error", e)
+            }
+            return emptyList()
         } finally {
-            inputTensor.close()
+            try {
+                inputTensor?.close()
+            } catch (_: Exception) {}
         }
     }
 
@@ -190,8 +208,15 @@ class YoloOnnxDetector(context: Context) {
         return intersection / (areaA + areaB - intersection)
     }
 
+    @Synchronized
     fun close() {
-        ortSession?.close()
-        ortEnv.close()
+        if (isClosed) return
+        isClosed = true
+        try {
+            ortSession?.close()
+            ortSession = null
+        } catch (e: Exception) {
+            Log.e("YoloOnnxDetector", "Error closing session", e)
+        }
     }
 }
