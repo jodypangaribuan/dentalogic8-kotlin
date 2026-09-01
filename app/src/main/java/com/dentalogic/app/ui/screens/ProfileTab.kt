@@ -167,34 +167,19 @@ private fun AppHeader() {
             .padding(top = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Box(
+        Image(
+            painter = painterResource(R.drawable.app_logo),
+            contentDescription = stringResource(R.string.app_icon_description),
             modifier = Modifier
-                .size(104.dp)
-                .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            contentAlignment = Alignment.Center,
-        ) {
-            Image(
-                painter = painterResource(R.drawable.app_logo),
-                contentDescription = stringResource(R.string.app_icon_description),
-                modifier = Modifier
-                    .size(84.dp)
-                    .clip(CircleShape),
-            )
-        }
-        Text(
-            text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 16.dp),
+                .height(110.dp)
+                .fillMaxWidth(),
         )
         Text(
             text = stringResource(R.string.app_tagline),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 4.dp),
+            modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp),
         )
     }
 }

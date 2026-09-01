@@ -1,5 +1,6 @@
 package com.dentalogic.app.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,8 +39,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.dentalogic.app.R
 import com.dentalogic.app.core.DentalCondition
 import com.dentalogic.app.data.ScanHistoryRepository
 
@@ -63,19 +66,38 @@ fun HomeScreen(
         contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        // App Title & Tagline Header
+        // Friendly Greeting & Brand Header
         item(key = "header") {
-            Column(modifier = Modifier.padding(vertical = 8.dp)) {
-                Text(
-                    text = "Dentalogic8",
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontWeight = FontWeight.Bold,
-                )
-                Text(
-                    text = "Real-Time AI Dental Caries Detection",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, bottom = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Hello there!",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "Ready to scan your smile?",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+
+                Image(
+                    painter = painterResource(R.drawable.app_logo),
+                    contentDescription = "Dentalogic8 Logo",
+                    modifier = Modifier
+                        .height(72.dp)
+                        .width(96.dp)
+                        .padding(start = 6.dp),
                 )
             }
         }
