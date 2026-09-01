@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -47,13 +46,13 @@ fun GuideScreen(contentPadding: PaddingValues) {
         item(key = "header") {
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
                 Text(
-                    text = "Panduan Klasifikasi",
+                    text = "Classification Guide",
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "Standar ICDAS (International Caries Detection and Assessment System)",
+                    text = "ICDAS (International Caries Detection and Assessment System) Standard",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -130,7 +129,7 @@ private fun ConditionGuideCard(condition: DentalCondition) {
                     color = condition.color.copy(alpha = 0.1f),
                 ) {
                     Text(
-                        text = "Tingkat: ${condition.severityLevel}",
+                        text = "Severity: ${condition.severityLevel}",
                         color = condition.color,
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.SemiBold,

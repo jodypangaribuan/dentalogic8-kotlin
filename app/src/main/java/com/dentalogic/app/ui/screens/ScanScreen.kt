@@ -39,7 +39,6 @@ import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -135,14 +134,14 @@ fun ScanScreen(contentPadding: PaddingValues) {
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Izin Kamera Diperlukan",
+                        text = "Camera Permission Required",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Aplikasi membutuhkan akses kamera untuk mendeteksi karies gigi secara real-time.",
+                        text = "Dentalogic requires camera access to detect and classify dental caries in real-time.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -151,7 +150,7 @@ fun ScanScreen(contentPadding: PaddingValues) {
                         onClick = { launcher.launch(Manifest.permission.CAMERA) },
                         shape = RoundedCornerShape(20.dp),
                     ) {
-                        Text("Izinkan Kamera")
+                        Text("Grant Camera Access")
                     }
                 }
             }
@@ -261,7 +260,7 @@ fun ScanScreen(contentPadding: PaddingValues) {
                 shape = RoundedCornerShape(20.dp),
             ) {
                 Text(
-                    text = "${inferenceTime}ms · ${detections.size} deteksi",
+                    text = "${inferenceTime}ms · ${detections.size} detections",
                     color = Color.White,
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
@@ -296,7 +295,7 @@ fun ScanScreen(contentPadding: PaddingValues) {
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Cameraswitch,
-                        contentDescription = "Ganti Kamera",
+                        contentDescription = "Switch Camera",
                         tint = Color.White,
                         modifier = Modifier.size(22.dp),
                     )
@@ -322,13 +321,13 @@ fun ScanScreen(contentPadding: PaddingValues) {
                 ) {
                     Column {
                         Text(
-                            text = if (detections.isEmpty()) "Mencari karies..." else "${detections.size} Karies Terdeteksi",
+                            text = if (detections.isEmpty()) "Scanning tooth surface..." else "${detections.size} Caries Detected",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface,
                         )
                         Text(
-                            text = "Arahkan kamera ke permukaan gigi",
+                            text = "Align camera directly at dental area",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -381,9 +380,9 @@ fun ScanScreen(contentPadding: PaddingValues) {
                     onClick = {
                         if (detections.isNotEmpty()) {
                             repository.saveRecord(detections)
-                            Toast.makeText(context, "Hasil scan berhasil disimpan", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Scan result successfully saved", Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(context, "Tidak ada deteksi saat ini", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "No detections to save", Toast.LENGTH_SHORT).show()
                         }
                     },
                     shape = RoundedCornerShape(20.dp),
@@ -397,7 +396,7 @@ fun ScanScreen(contentPadding: PaddingValues) {
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.size(8.dp))
-                    Text("Simpan Hasil Scan", fontWeight = FontWeight.SemiBold)
+                    Text("Save Scan Result", fontWeight = FontWeight.SemiBold)
                 }
             }
         }

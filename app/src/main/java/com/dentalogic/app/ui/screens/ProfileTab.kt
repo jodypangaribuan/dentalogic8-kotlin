@@ -30,11 +30,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
-import androidx.compose.material.icons.rounded.Coffee
-import androidx.compose.material.icons.rounded.Download
-import androidx.compose.material.icons.rounded.Science
-import androidx.compose.material.icons.rounded.Shield
-import androidx.compose.material.icons.rounded.Upload
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -62,11 +57,10 @@ import com.dentalogic.app.ui.components.ExpressiveSegmentedRow
 import com.dentalogic.app.ui.theme.AppTheme
 
 /** The screens reachable from the Profile tab. Hoisted to MainScreen. */
-enum class ProfileRoute { List, Changelog, PermissionDetails, Testing }
+enum class ProfileRoute { List, Changelog }
 
 /**
- * "Profile" destination: the app-wide theme choice, the version (which opens the changelog) and
- * links out to the project. The selected theme is persisted and applied at the root of the activity.
+ * "Profile" destination: app theme choice, version details, repository link, and developer information.
  */
 @Composable
 fun ProfileTab(
@@ -75,10 +69,6 @@ fun ProfileTab(
     currentTheme: AppTheme,
     onThemeChange: (AppTheme) -> Unit,
     onOpenChangelog: () -> Unit,
-    onOpenPermissionDetails: () -> Unit,
-    onOpenTesting: () -> Unit,
-    onExportSettings: () -> Unit,
-    onImportSettings: () -> Unit,
 ) {
     AnimatedContent(
         targetState = route,
@@ -93,14 +83,8 @@ fun ProfileTab(
                 currentTheme = currentTheme,
                 onThemeChange = onThemeChange,
                 onOpenChangelog = onOpenChangelog,
-                onOpenPermissionDetails = onOpenPermissionDetails,
-                onOpenTesting = onOpenTesting,
-                onExportSettings = onExportSettings,
-                onImportSettings = onImportSettings,
             )
             ProfileRoute.Changelog -> ChangelogScreen(contentPadding)
-            ProfileRoute.PermissionDetails -> PermissionDetailsScreen(contentPadding)
-            ProfileRoute.Testing -> TestingScreen(contentPadding)
         }
     }
 }
@@ -111,10 +95,6 @@ private fun ProfileList(
     currentTheme: AppTheme,
     onThemeChange: (AppTheme) -> Unit,
     onOpenChangelog: () -> Unit,
-    onOpenPermissionDetails: () -> Unit,
-    onOpenTesting: () -> Unit,
-    onExportSettings: () -> Unit,
-    onImportSettings: () -> Unit,
 ) {
     val context = LocalContext.current
     val versionName = remember {
@@ -156,26 +136,9 @@ private fun ProfileList(
             },
         )
 
-        PermissionDetailsCard(
-            onClick = {
-                haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                onOpenPermissionDetails()
-            },
-        )
-
-        TestingCard(
-            onClick = {
-                haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                onOpenTesting()
-            },
-        )
-
         val githubProjectUrl = stringResource(R.string.profile_github_project_url)
         val githubProfileUrl = stringResource(R.string.profile_github_url)
-        val coffeeUrl = stringResource(R.string.profile_coffee_url)
         val linkedInUrl = stringResource(R.string.profile_linkedin_url)
-
-        ExportSettingsCard(onExportSettings, onImportSettings)
 
         GitHubCard(
             onClick = {
@@ -186,7 +149,6 @@ private fun ProfileList(
 
         DevCard(
             onOpenGitHub = { openUrl(githubProfileUrl) },
-            onOpenCoffee = { openUrl(coffeeUrl) },
             onOpenLinkedIn = { openUrl(linkedInUrl) },
         )
 
@@ -195,7 +157,7 @@ private fun ProfileList(
 }
 
 /**
- * The app's identity at the top of the tab: the launcher icon, the app name and the tagline.
+ * The app's identity at the top of the tab: the tooth icon, the app name and the tagline.
  */
 @Composable
 private fun AppHeader() {
@@ -210,12 +172,13 @@ private fun AppHeader() {
                 .size(104.dp)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.primaryContainer),
+            contentAlignment = Alignment.Center,
         ) {
             Icon(
-                painter = painterResource(R.drawable.ic_launcher_monochrome),
+                painter = painterResource(R.drawable.ic_tooth),
                 contentDescription = stringResource(R.string.app_icon_description),
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.size(56.dp),
             )
         }
         Text(
@@ -236,13 +199,12 @@ private fun AppHeader() {
 }
 
 /**
- * The "about" card that closes the tab: the developer's photo and the links out as filled buttons.
+ * The "about" card with developer details and social links.
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun DevCard(
     onOpenGitHub: () -> Unit,
-    onOpenCoffee: () -> Unit,
     onOpenLinkedIn: () -> Unit,
 ) {
     Card(
@@ -261,6 +223,7 @@ private fun DevCard(
             Text(
                 text = stringResource(R.string.dev_card_author),
                 style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(vertical = 20.dp),
             )
@@ -277,15 +240,6 @@ private fun DevCard(
                     )
                     Spacer(Modifier.width(8.dp))
                     Text(stringResource(R.string.dev_card_github))
-                }
-                Button(onClick = onOpenCoffee) {
-                    Icon(
-                        imageVector = Icons.Rounded.Coffee,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp),
-                    )
-                    Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.profile_coffee_title))
                 }
                 Button(onClick = onOpenLinkedIn) {
                     Icon(
@@ -403,90 +357,6 @@ private fun VersionCard(versionName: String, onClick: () -> Unit) {
 }
 
 @Composable
-private fun PermissionDetailsCard(onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Shield,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(26.dp),
-            )
-            Spacer(Modifier.width(20.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = stringResource(R.string.profile_permissions_title),
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Text(
-                    text = stringResource(R.string.profile_permissions_subtitle),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            Icon(
-                imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-    }
-}
-
-@Composable
-private fun TestingCard(onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Science,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(26.dp),
-            )
-            Spacer(Modifier.width(20.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = stringResource(R.string.profile_testing_title),
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Text(
-                    text = stringResource(R.string.profile_testing_subtitle),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            Icon(
-                imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
-    }
-}
-
-@Composable
 private fun GitHubCard(onClick: () -> Unit) {
     Card(
         modifier = Modifier
@@ -524,56 +394,6 @@ private fun GitHubCard(onClick: () -> Unit) {
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-        }
-    }
-}
-
-@Composable
-private fun ExportSettingsCard(
-    onExportSettings: () -> Unit,
-    onImportSettings: () -> Unit,
-) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-        ) {
-            Text(
-                text = stringResource(R.string.profile_export_title),
-                style = MaterialTheme.typography.titleMedium,
-            )
-            Text(
-                text = stringResource(R.string.profile_export_description),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-
-            Row(
-                modifier = Modifier.padding(top = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                Button(
-                    modifier = Modifier.weight(1f),
-                    onClick = onExportSettings,
-                ) {
-                    Icon(imageVector = Icons.Rounded.Upload, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = stringResource(R.string.profile_export_export))
-                }
-
-                Button(
-                    modifier = Modifier.weight(1f),
-                    onClick = onImportSettings,
-                ) {
-                    Icon(imageVector = Icons.Rounded.Download, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = stringResource(R.string.profile_export_import))
-                }
-            }
         }
     }
 }

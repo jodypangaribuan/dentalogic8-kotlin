@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -52,7 +51,7 @@ import com.dentalogic.app.data.ScanRecord
 fun HistoryScreen(contentPadding: PaddingValues) {
     val context = LocalContext.current
     val repository = remember { ScanHistoryRepository(context) }
-    var records by remember { mutableStateOf(repository.getRecords()) }
+    val records by remember { mutableStateOf(repository.getRecords()) }
 
     LazyColumn(
         modifier = Modifier
@@ -64,13 +63,13 @@ fun HistoryScreen(contentPadding: PaddingValues) {
         item(key = "header") {
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
                 Text(
-                    text = "Riwayat Pemeriksaan",
+                    text = "Examination History",
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "Catatan hasil pemindaian dan perkembangan kondisi gigi",
+                    text = "Historical records of caries detection and progression",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -96,13 +95,13 @@ fun HistoryScreen(contentPadding: PaddingValues) {
                         )
                         Spacer(modifier = Modifier.height(12.dp))
                         Text(
-                            text = "Belum Ada Riwayat",
+                            text = "No Examination Records",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurface,
                         )
                         Text(
-                            text = "Hasil pemindaian Anda akan muncul di sini.",
+                            text = "Your scan records will appear here once saved.",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -150,7 +149,7 @@ private fun HistoryCard(record: ScanRecord) {
                             .clip(CircleShape)
                             .background(condition.color),
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(Modifier.width(8.dp))
                     Text(
                         text = record.dateFormatted,
                         style = MaterialTheme.typography.labelLarge,
@@ -164,7 +163,7 @@ private fun HistoryCard(record: ScanRecord) {
                     color = condition.color.copy(alpha = 0.15f),
                 ) {
                     Text(
-                        text = "Risiko ${record.riskLevel}",
+                        text = "${record.riskLevel} Risk",
                         color = condition.color,
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
@@ -181,7 +180,7 @@ private fun HistoryCard(record: ScanRecord) {
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Text(
-                text = "${record.totalDetections} temuan karies terdeteksi.",
+                text = "${record.totalDetections} caries findings detected.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

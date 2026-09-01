@@ -22,7 +22,6 @@ import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.HealthAndSafety
-import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.MedicalServices
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -37,12 +36,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.dentalogic.app.core.DentalCondition
 import com.dentalogic.app.data.ScanHistoryRepository
 
@@ -76,7 +73,7 @@ fun HomeScreen(
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "AI Deteksi Karies Gigi Real-Time",
+                    text = "Real-Time AI Dental Caries Detection",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -115,13 +112,13 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.width(16.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Mulai Pemeriksaan",
+                            text = "Start Examination",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                         Text(
-                            text = "Pindai gigi menggunakan kamera dan deteksi karies instan",
+                            text = "Scan teeth using camera for instant caries classification",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
                         )
@@ -150,7 +147,7 @@ fun HomeScreen(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            text = "Pemeriksaan Terakhir",
+                            text = "Recent Examination",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.onSurface,
@@ -176,7 +173,7 @@ fun HomeScreen(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "Status Tertinggi: ${condition.code} - ${condition.title}",
+                                text = "Highest Finding: ${condition.code} - ${condition.title}",
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Medium,
                                 color = MaterialTheme.colorScheme.onSurface,
@@ -184,13 +181,13 @@ fun HomeScreen(
                         }
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "Total ${latestRecord.totalDetections} temuan karies terdeteksi.",
+                            text = "Total ${latestRecord.totalDetections} caries instances detected.",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     } else {
                         Text(
-                            text = "Belum ada riwayat pemeriksaan. Mulai pindai sekarang!",
+                            text = "No examination history yet. Start your first scan!",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -209,18 +206,18 @@ fun HomeScreen(
             ) {
                 HomeInfoRow(
                     icon = Icons.Rounded.MedicalServices,
-                    title = "Standar ICDAS D0 - D6",
-                    description = "Menggunakan klasifikasi tingkat keparahan karies standar internasional",
+                    title = "ICDAS D0 - D6 Standard",
+                    description = "Clinical classification criteria based on international caries assessment system",
                 )
                 HomeInfoRow(
                     icon = Icons.Rounded.HealthAndSafety,
-                    title = "Privasi Terjamin",
-                    description = "Inferensi AI berjalan 100% offline pada perangkat Anda tanpa unggahan",
+                    title = "Complete Privacy",
+                    description = "100% on-device AI inference with zero cloud uploads or data tracking",
                 )
                 HomeInfoRow(
                     icon = Icons.Rounded.CheckCircle,
-                    title = "Rekomendasi Klinis",
-                    description = "Dapatkan saran perawatan awal berdasarkan tingkat keparahan karies",
+                    title = "Instant Diagnostics",
+                    description = "High-precision YOLOv11 model running in real-time on your camera stream",
                 )
             }
         }

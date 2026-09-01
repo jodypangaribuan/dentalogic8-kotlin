@@ -122,10 +122,10 @@ fun MainScreen(
                         onOpenPermissionDetails = { profileRoute = ProfileRoute.PermissionDetails },
                         onOpenTesting = { profileRoute = ProfileRoute.Testing },
                         onExportSettings = {
-                            Toast.makeText(context, "Pengaturan & riwayat diekspor", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Settings & history exported", Toast.LENGTH_SHORT).show()
                         },
                         onImportSettings = {
-                            Toast.makeText(context, "Pengaturan diimpor", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Settings imported", Toast.LENGTH_SHORT).show()
                         },
                     )
                 }
