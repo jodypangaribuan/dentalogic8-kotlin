@@ -1,8 +1,6 @@
 package com.dentalogic.app.ui
 
-import android.widget.Toast
 import androidx.activity.compose.PredictiveBackHandler
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -33,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -63,7 +60,6 @@ fun MainScreen(
     val tabs = NavTab.entries
     val currentTab = tabs[selectedIndex]
     val haptics = LocalHapticFeedback.current
-    val context = LocalContext.current
 
     val inSubScreen = currentTab == NavTab.PROFILE && profileRoute != ProfileRoute.List
 
@@ -119,14 +115,6 @@ fun MainScreen(
                         currentTheme = currentTheme,
                         onThemeChange = onThemeChange,
                         onOpenChangelog = { profileRoute = ProfileRoute.Changelog },
-                        onOpenPermissionDetails = { profileRoute = ProfileRoute.PermissionDetails },
-                        onOpenTesting = { profileRoute = ProfileRoute.Testing },
-                        onExportSettings = {
-                            Toast.makeText(context, "Settings & history exported", Toast.LENGTH_SHORT).show()
-                        },
-                        onImportSettings = {
-                            Toast.makeText(context, "Settings imported", Toast.LENGTH_SHORT).show()
-                        },
                     )
                 }
             }
@@ -169,8 +157,6 @@ fun MainScreen(
             if (inSubScreen) {
                 val subTitle = when (profileRoute) {
                     ProfileRoute.Changelog -> stringResource(R.string.changelog_title)
-                    ProfileRoute.PermissionDetails -> stringResource(R.string.profile_permissions_title)
-                    ProfileRoute.Testing -> stringResource(R.string.profile_testing_title)
                     else -> stringResource(R.string.profile_version)
                 }
                 BackNavBar(
