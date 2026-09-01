@@ -1,5 +1,6 @@
 package com.dentalogic.app.ui.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.CubicBezierEasing
@@ -8,11 +9,13 @@ import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -27,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,7 +41,8 @@ private val EMPHASIZED_EASING = CubicBezierEasing(0.2f, 0f, 0f, 1f)
 /** One destination in the [ExpressiveNavBar]. */
 data class NavBarItem(
     val label: String,
-    val icon: ImageVector,
+    val icon: ImageVector? = null,
+    @param:DrawableRes val drawableRes: Int? = null,
 )
 
 /**
@@ -112,15 +117,25 @@ private fun NavBarPill(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
             )
-            .padding(horizontal = if (selected) 16.dp else 14.dp, vertical = 10.dp),
+            .padding(horizontal = if (selected) 16.dp else 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        Icon(
-            imageVector = item.icon,
-            contentDescription = item.label,
-            tint = contentColor,
-        )
+        if (item.drawableRes != null) {
+            Image(
+                painter = painterResource(item.drawableRes),
+                contentDescription = item.label,
+                modifier = Modifier.size(28.dp),
+            )
+        } else if (item.icon != null) {
+            Icon(
+                imageVector = item.icon,
+                contentDescription = item.label,
+                tint = contentColor,
+                modifier = Modifier.size(28.dp),
+            )
+        }
+
         AnimatedVisibility(
             visible = selected,
             enter = fadeIn(tween(durationMillis = 300, easing = EMPHASIZED_EASING)) +

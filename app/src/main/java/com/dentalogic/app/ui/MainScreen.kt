@@ -194,7 +194,7 @@ fun MainScreen(
                 )
             } else {
                 ExpressiveNavBar(
-                    items = tabs.map { NavBarItem(stringResource(it.labelRes), it.icon) },
+                    items = tabs.map { NavBarItem(stringResource(it.labelRes), icon = it.icon, drawableRes = it.drawableRes) },
                     selectedIndex = selectedIndex,
                     onSelect = { index ->
                         if (index != selectedIndex) {
