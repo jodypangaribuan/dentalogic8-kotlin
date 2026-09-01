@@ -308,7 +308,7 @@ fun HomeScreen(
             // Trust / Feature Cards
             item(key = "feature_icdas") {
                 FeatureCard(
-                    icon = Icons.Rounded.MedicalServices,
+                    drawableRes = R.drawable.ic_feature_icdas,
                     title = "ICDAS D0 - D6 Standard",
                     description = "Clinical classification criteria based on international caries assessment system",
                 )
@@ -316,7 +316,7 @@ fun HomeScreen(
 
             item(key = "feature_privacy") {
                 FeatureCard(
-                    icon = Icons.Rounded.HealthAndSafety,
+                    drawableRes = R.drawable.ic_feature_privacy,
                     title = "Complete Privacy",
                     description = "100% on-device AI inference with zero cloud uploads or data tracking",
                 )
@@ -324,7 +324,7 @@ fun HomeScreen(
 
             item(key = "feature_offline") {
                 FeatureCard(
-                    icon = Icons.Rounded.CheckCircle,
+                    drawableRes = R.drawable.ic_feature_instant,
                     title = "Instant Diagnostics",
                     description = "High-precision YOLOv12 model running in real-time on your camera stream",
                 )
@@ -352,9 +352,10 @@ fun HomeScreen(
 
 @Composable
 private fun FeatureCard(
-    icon: ImageVector,
     title: String,
     description: String,
+    icon: ImageVector? = null,
+    drawableRes: Int? = null,
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -366,19 +367,29 @@ private fun FeatureCard(
             modifier = Modifier.padding(18.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Box(
-                modifier = Modifier
-                    .size(44.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    imageVector = icon,
+            if (drawableRes != null) {
+                Image(
+                    painter = painterResource(drawableRes),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(22.dp),
+                    modifier = Modifier
+                        .size(44.dp)
+                        .clip(RoundedCornerShape(12.dp)),
                 )
+            } else if (icon != null) {
+                Box(
+                    modifier = Modifier
+                        .size(44.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.primaryContainer),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(22.dp),
+                    )
+                }
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {

@@ -1,5 +1,23 @@
 [
   {
+    "version": "2.2.0",
+    "description": "Upload Image Analysis, Custom Illustrations & Visual Overhaul",
+    "features": [
+      "Added Upload Image feature to run YOLOv12 on-device caries detection on gallery photos.",
+      "Integrated full custom illustrated icon suite across bottom navigation bar (Home, Scan, History, Guide, Profile).",
+      "Integrated custom illustrations for all Home feature cards (ICDAS, Complete Privacy, Instant Diagnostics).",
+      "Added dynamic theme wallpapers: background.png for Light theme and background_dark.png for Dark theme.",
+      "Implemented inverted floating navigation bar with crisp surface container and vibrant active pill.",
+      "Set Light Theme as the default startup experience.",
+      "Updated branding copywriting across all screens: Recent Scan, Scan History, and Dentalogic8 Team."
+    ],
+    "bugfixes": [
+      "Eliminated Android 12+ circular splash mask clipping by calibrating safe-zone vector bounds.",
+      "Fixed theme toggle track color to clean neutral gray.",
+      "Removed solid black background from feature assets for seamless card blending."
+    ]
+  },
+  {
     "version": "2.1.0",
     "description": "Full-Screen Viewfinder, Navigation Polish & Stability Fixes",
     "features": [
