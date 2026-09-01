@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,7 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.dentalogic.app.R
@@ -48,7 +51,7 @@ import com.dentalogic.app.ui.screens.ScanScreen
 import com.dentalogic.app.ui.theme.AppTheme
 
 /**
- * Root of the in-app UI: contains top & bottom gradient scrims, floating expressive nav bar & back bar.
+ * Root of the in-app UI: displays app_background wallpaper, top & bottom scrims, floating expressive nav bar & back bar.
  */
 @Composable
 fun MainScreen(
@@ -97,8 +100,18 @@ fun MainScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.surfaceContainer),
+                .background(color = MaterialTheme.colorScheme.background),
         ) {
+            // Fullscreen App Wallpaper Background (non-scan screens)
+            if (!isScanTab) {
+                Image(
+                    painter = painterResource(R.drawable.app_background),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+
             // Main Tab Content with fluid transition
             AnimatedContent(
                 targetState = currentTab,
@@ -135,8 +148,8 @@ fun MainScreen(
                         .background(
                             Brush.verticalGradient(
                                 0f to Color.Transparent,
-                                0.7f to MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f),
-                                1f to MaterialTheme.colorScheme.surfaceContainer,
+                                0.7f to MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.5f),
+                                1f to MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.85f),
                             ),
                         ),
                 )
@@ -151,8 +164,8 @@ fun MainScreen(
                         .height(topScrimHeight)
                         .background(
                             Brush.verticalGradient(
-                                0f to MaterialTheme.colorScheme.surfaceContainer,
-                                0.4f to MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f),
+                                0f to MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.85f),
+                                0.4f to MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.5f),
                                 1f to Color.Transparent,
                             ),
                         ),

@@ -117,20 +117,11 @@ fun HomeScreen(
                     modifier = Modifier.padding(20.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .size(56.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primary),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.CameraAlt,
-                            contentDescription = "Scan",
-                            tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.size(28.dp),
-                        )
-                    }
+                    Image(
+                        painter = painterResource(R.drawable.ic_scan_hero),
+                        contentDescription = "Start Scan",
+                        modifier = Modifier.size(58.dp),
+                    )
                     Spacer(modifier = Modifier.width(16.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
