@@ -22,7 +22,7 @@
     <string name="profile_github_project_url">https://github.com/jodypangaribuan/dentalogic8-kotlin</string>
     <string name="profile_github_url">https://github.com/jodypangaribuan</string>
     <string name="profile_linkedin_url">https://www.linkedin.com/in/jodypangaribuan/</string>
-    <string name="dev_card_author">Made by Jody Edriano Pangaribuan &amp; Dentalogic8 Team</string>
+    <string name="dev_card_author">Made by Dentalogic8</string>
     <string name="dev_card_github">View on GitHub</string>
     <string name="dev_card_linkedin">LinkedIn</string>
     <string name="dev_card_avatar">Developer avatar</string>
