@@ -6,13 +6,16 @@
       "Migrated to clean feature-based architecture with Material 3 Expressive design system.",
       "Added floating Expressive navigation bar with fluid spring pill transitions.",
       "Edge-to-edge layout with adaptive top and bottom gradient scrims.",
-      "Real-time YOLOv11 ONNX inference engine with ICDAS D0-D6 classification.",
+      "Branded Dentalogic tooth splash screen and adaptive launcher icons.",
+      "Full English localization across all UI, clinical guides, and domain models.",
+      "Profile screen with real-time System / Light / Dark theme switcher and project links.",
+      "Real-time YOLOv12 ONNX inference engine with ICDAS D0-D6 caries classification.",
       "Live CameraX analyzer with real-time bounding box overlay and metrics chip.",
-      "Comprehensive ICDAS classification guide and local scan history storage.",
-      "System, Light, and Dark theme switcher with Material You dynamic color support."
+      "Comprehensive ICDAS classification guide and local scan history storage."
     ],
     "bugfixes": [
-      "Optimized camera frame analyzer lifecycle to eliminate memory leaks."
+      "Optimized camera frame analyzer lifecycle to eliminate memory leaks.",
+      "Replaced generic Android robot startup splash screen with branded vector theme."
     ]
   },
   {

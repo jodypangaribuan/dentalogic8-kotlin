@@ -217,7 +217,7 @@ fun HomeScreen(
                 HomeInfoRow(
                     icon = Icons.Rounded.CheckCircle,
                     title = "Instant Diagnostics",
-                    description = "High-precision YOLOv11 model running in real-time on your camera stream",
+                    description = "High-precision YOLOv12 model running in real-time on your camera stream",
                 )
             }
         }
