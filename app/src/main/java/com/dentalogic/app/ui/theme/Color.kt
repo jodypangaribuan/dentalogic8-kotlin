@@ -28,31 +28,31 @@ val SkySurfaceVariantLight = Color(0xFFE2E8F0)
 val SkyOnSurfaceVariantLight = Color(0xFF475569)
 val SkyOutlineLight = Color(0xFF94A3B8)
 
-// Eye-Friendly Muted Sky Blue Brand Palette - Dark Mode (Soft, non-glare, medium tone blue)
-val SkyPrimaryDark = Color(0xFF4A9CD6) // Softer medium sky blue without harsh light glare
-val SkyOnPrimaryDark = Color(0xFFFFFFFF)
-val SkyPrimaryContainerDark = Color(0xFF1E3A5F) // Deep, calm midnight blue container
-val SkyOnPrimaryContainerDark = Color(0xFFD0E3F5)
+// Compact & Harmonious Sky Blue Brand Palette - Dark Mode (Tailwind Sky 400 / Sky 900)
+val SkyPrimaryDark = Color(0xFF38BDF8) // Modern electric sky blue (crisp on dark surfaces)
+val SkyOnPrimaryDark = Color(0xFF082F49) // Deep navy contrast on primary
+val SkyPrimaryContainerDark = Color(0xFF0C4A6E) // Rich deep midnight ocean container
+val SkyOnPrimaryContainerDark = Color(0xFFE0F2FE)
 
-val SkySecondaryDark = Color(0xFF8B9EB0) // Calm muted slate blue
-val SkyOnSecondaryDark = Color(0xFFFFFFFF)
-val SkySecondaryContainerDark = Color(0xFF1A2634)
-val SkyOnSecondaryContainerDark = Color(0xFFD5E0EA)
+val SkySecondaryDark = Color(0xFF7DD3FC) // Light sky accent
+val SkyOnSecondaryDark = Color(0xFF082F49)
+val SkySecondaryContainerDark = Color(0xFF075985)
+val SkyOnSecondaryContainerDark = Color(0xFFE0F2FE)
 
-val SkyTertiaryDark = Color(0xFF388E9C)
-val SkyOnTertiaryDark = Color(0xFFFFFFFF)
-val SkyTertiaryContainerDark = Color(0xFF16383E)
-val SkyOnTertiaryContainerDark = Color(0xFFC2E2E8)
+val SkyTertiaryDark = Color(0xFF2DD4BF) // Teal accent
+val SkyOnTertiaryDark = Color(0xFF003833)
+val SkyTertiaryContainerDark = Color(0xFF134E4A)
+val SkyOnTertiaryContainerDark = Color(0xFFCCFBF1)
 
-val SkyBackgroundDark = Color(0xFF0F1720) // Soft, warm-slate dark (easy on eyes)
-val SkyOnBackgroundDark = Color(0xFFE2E8F0)
-val SkySurfaceDark = Color(0xFF16202B) // Calm dark slate
-val SkyOnSurfaceDark = Color(0xFFE2E8F0)
-val SkySurfaceContainerDark = Color(0xFF1C2836) // Elevated container with subtle soft contrast
-val SkySurfaceContainerHighestDark = Color(0xFF233140)
-val SkySurfaceVariantDark = Color(0xFF233140)
-val SkyOnSurfaceVariantDark = Color(0xFF8E9EAE)
-val SkyOutlineDark = Color(0xFF3E5064)
+val SkyBackgroundDark = Color(0xFF0B131E) // Seamless midnight slate matching background_dark.png
+val SkyOnBackgroundDark = Color(0xFFF1F5F9)
+val SkySurfaceDark = Color(0xFF131F2E) // Deep elegant dark surface
+val SkyOnSurfaceDark = Color(0xFFF1F5F9)
+val SkySurfaceContainerDark = Color(0xFF18283B) // Elevated card container
+val SkySurfaceContainerHighestDark = Color(0xFF203248)
+val SkySurfaceVariantDark = Color(0xFF1E2D3F)
+val SkyOnSurfaceVariantDark = Color(0xFF94A3B8)
+val SkyOutlineDark = Color(0xFF334B64)
 
 // Clinical severity indicator colors for caries classification (D0 - D6)
 val ColorHealthy = Color(0xFF10B981) // D0 - Healthy (Emerald)

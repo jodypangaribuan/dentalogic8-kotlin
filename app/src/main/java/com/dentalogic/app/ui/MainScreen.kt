@@ -49,6 +49,7 @@ import com.dentalogic.app.ui.screens.ProfileRoute
 import com.dentalogic.app.ui.screens.ProfileTab
 import com.dentalogic.app.ui.screens.ScanScreen
 import com.dentalogic.app.ui.theme.AppTheme
+import com.dentalogic.app.ui.theme.isDark
 
 /**
  * Root of the in-app UI: displays app_background wallpaper, top & bottom scrims, floating expressive nav bar & back bar.
@@ -58,6 +59,9 @@ fun MainScreen(
     currentTheme: AppTheme,
     onThemeChange: (AppTheme) -> Unit,
 ) {
+    val isDark = currentTheme.isDark()
+    val bgDrawableRes = if (isDark) R.drawable.app_background_dark else R.drawable.app_background
+
     var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
     var profileRoute by rememberSaveable { mutableStateOf(ProfileRoute.List) }
     val tabs = NavTab.entries
@@ -105,7 +109,7 @@ fun MainScreen(
             // Fullscreen App Wallpaper Background (non-scan screens)
             if (!isScanTab) {
                 Image(
-                    painter = painterResource(R.drawable.app_background),
+                    painter = painterResource(bgDrawableRes),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize(),
