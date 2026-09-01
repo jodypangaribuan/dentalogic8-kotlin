@@ -5,11 +5,11 @@
     "features": [
       "Complete native Android rewrite in Kotlin with Jetpack Compose.",
       "Material 3 Expressive UI design system with floating pill navigation bar and spring physics.",
-      "Edge-to-edge layout with adaptive gradient status and navigation scrims.",
+      "Edge-to-edge layout with adaptive top and bottom gradient scrims.",
       "Real-time YOLOv12 ONNX Runtime inference engine with ICDAS D0-D6 caries classification.",
       "Live CameraX analyzer with real-time bounding box overlay and inference performance metrics.",
-      "System, Light, and Dark dynamic theme switcher.",
-      "Custom branded Dentalogic tooth launcher icon and Android 12+ splash screen theme."
+      "System, Light, and Dark dynamic theme switcher with Baby Blue brand palette.",
+      "Custom branded Dentalogic8 tooth launcher icon and Android 12+ splash screen theme."
     ],
     "bugfixes": [
       "Eliminated camera preview memory leaks and stabilized ONNX session lifecycle.",

@@ -67,7 +67,7 @@ fun HomeScreen(
         item(key = "header") {
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
                 Text(
-                    text = "Dentalogic",
+                    text = "Dentalogic8",
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold,

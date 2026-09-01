@@ -141,7 +141,7 @@ fun ScanScreen(contentPadding: PaddingValues) {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Dentalogic requires camera access to detect and classify dental caries in real-time.",
+                        text = "Dentalogic8 requires camera access to detect and classify dental caries in real-time.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
