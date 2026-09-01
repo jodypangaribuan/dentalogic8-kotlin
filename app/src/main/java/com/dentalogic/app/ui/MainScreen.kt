@@ -61,16 +61,22 @@ fun MainScreen(
     val currentTab = tabs[selectedIndex]
     val haptics = LocalHapticFeedback.current
 
-    val inSubScreen = currentTab == NavTab.PROFILE && profileRoute != ProfileRoute.List
+    val inProfileSubScreen = currentTab == NavTab.PROFILE && profileRoute != ProfileRoute.List
+    val isScanTab = currentTab == NavTab.SCAN
+    val showBackNavBar = isScanTab || inProfileSubScreen
 
-    val navigateBack: () -> Unit = {
-        profileRoute = ProfileRoute.List
+    val handleBack: () -> Unit = {
+        if (inProfileSubScreen) {
+            profileRoute = ProfileRoute.List
+        } else if (isScanTab) {
+            selectedIndex = NavTab.HOME.ordinal
+        }
     }
 
-    PredictiveBackHandler(enabled = inSubScreen) { progress ->
+    PredictiveBackHandler(enabled = showBackNavBar) { progress ->
         try {
             progress.collect { _ -> }
-            navigateBack()
+            handleBack()
         } catch (_: Exception) {
         }
     }
@@ -83,7 +89,7 @@ fun MainScreen(
         val contentPadding = PaddingValues(
             start = 0.dp,
             end = 0.dp,
-            top = topScrimHeight + 8.dp,
+            top = if (isScanTab) 0.dp else (topScrimHeight + 8.dp),
             // Clear the floating nav bar (approx 64dp tall) + bottom margin + system bar
             bottom = 96.dp + navBarBottomInset,
         )
@@ -119,49 +125,54 @@ fun MainScreen(
                 }
             }
 
-            // Bottom Gradient Scrim for smooth content scroll fade
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .height(140.dp)
-                    .background(
-                        Brush.verticalGradient(
-                            0f to Color.Transparent,
-                            0.7f to MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f),
-                            1f to MaterialTheme.colorScheme.surfaceContainer,
+            // Bottom Gradient Scrim for smooth content scroll fade (non-scan screens)
+            if (!isScanTab) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .height(140.dp)
+                        .background(
+                            Brush.verticalGradient(
+                                0f to Color.Transparent,
+                                0.7f to MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f),
+                                1f to MaterialTheme.colorScheme.surfaceContainer,
+                            ),
                         ),
-                    ),
-            )
+                )
+            }
 
-            // Top Status Bar Gradient Scrim (No TopAppBar design)
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .fillMaxWidth()
-                    .height(topScrimHeight)
-                    .background(
-                        Brush.verticalGradient(
-                            0f to MaterialTheme.colorScheme.surfaceContainer,
-                            0.4f to MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f),
-                            1f to Color.Transparent,
+            // Top Status Bar Gradient Scrim (No TopAppBar design, non-scan screens)
+            if (!isScanTab) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxWidth()
+                        .height(topScrimHeight)
+                        .background(
+                            Brush.verticalGradient(
+                                0f to MaterialTheme.colorScheme.surfaceContainer,
+                                0.4f to MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.7f),
+                                1f to Color.Transparent,
+                            ),
                         ),
-                    ),
-            )
+                )
+            }
 
             val barModifier = Modifier
                 .align(Alignment.BottomCenter)
                 .navigationBarsPadding()
                 .padding(bottom = 16.dp)
 
-            if (inSubScreen) {
-                val subTitle = when (profileRoute) {
-                    ProfileRoute.Changelog -> stringResource(R.string.changelog_title)
+            if (showBackNavBar) {
+                val subTitle = when {
+                    isScanTab -> stringResource(R.string.nav_scan)
+                    profileRoute == ProfileRoute.Changelog -> stringResource(R.string.changelog_title)
                     else -> stringResource(R.string.profile_version)
                 }
                 BackNavBar(
                     title = subTitle,
-                    onBack = navigateBack,
+                    onBack = handleBack,
                     modifier = barModifier,
                 )
             } else {

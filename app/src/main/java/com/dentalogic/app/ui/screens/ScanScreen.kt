@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.util.Log
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.Camera
@@ -35,7 +34,6 @@ import androidx.compose.material.icons.rounded.Cameraswitch
 import androidx.compose.material.icons.rounded.FlashOff
 import androidx.compose.material.icons.rounded.FlashOn
 import androidx.compose.material.icons.rounded.PhotoCamera
-import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
@@ -49,7 +47,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -67,19 +64,17 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.dentalogic.app.camera.CameraXAnalyzer
 import com.dentalogic.app.core.DentalCondition
 import com.dentalogic.app.core.DetectionResult
-import com.dentalogic.app.data.ScanHistoryRepository
 import com.dentalogic.app.inference.YoloOnnxDetector
 import com.dentalogic.app.ui.components.BoundingBoxOverlay
 import java.util.concurrent.Executors
 
 /**
- * CameraX live caries detection screen.
+ * CameraX live caries detection screen with robust lifecycle management.
  */
 @Composable
 fun ScanScreen(contentPadding: PaddingValues) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val repository = remember { ScanHistoryRepository(context) }
 
     var hasCameraPermission by remember {
         mutableStateOf(
@@ -159,82 +154,97 @@ fun ScanScreen(contentPadding: PaddingValues) {
     }
 
     val detector = remember { YoloOnnxDetector(context) }
-    DisposableEffect(Unit) {
-        onDispose { detector.close() }
-    }
+    val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
 
     var detections by remember { mutableStateOf<List<DetectionResult>>(emptyList()) }
     var imageWidth by remember { mutableIntStateOf(640) }
     var imageHeight by remember { mutableIntStateOf(640) }
-    var inferenceTime by remember { mutableLongStateOf(0L) }
 
     var camera by remember { mutableStateOf<Camera?>(null) }
     var isTorchOn by remember { mutableStateOf(false) }
     var isFrontCamera by remember { mutableStateOf(false) }
 
-    val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
-    DisposableEffect(Unit) {
-        onDispose { cameraExecutor.shutdown() }
+    val previewView = remember {
+        PreviewView(context).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+            )
+            scaleType = PreviewView.ScaleType.FILL_CENTER
+        }
+    }
+
+    // Bind camera once per camera orientation / lifecycle start
+    LaunchedEffect(isFrontCamera, lifecycleOwner) {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+        cameraProviderFuture.addListener({
+            try {
+                val cameraProvider = cameraProviderFuture.get()
+
+                val preview = Preview.Builder().build().also {
+                    it.setSurfaceProvider(previewView.surfaceProvider)
+                }
+
+                val imageAnalysis = ImageAnalysis.Builder()
+                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                    .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
+                    .build()
+                    .also { analysis ->
+                        analysis.setAnalyzer(
+                            cameraExecutor,
+                            CameraXAnalyzer(detector) { results, w, h, _ ->
+                                detections = results
+                                imageWidth = w
+                                imageHeight = h
+                            },
+                        )
+                    }
+
+                val cameraSelector = if (isFrontCamera) {
+                    CameraSelector.DEFAULT_FRONT_CAMERA
+                } else {
+                    CameraSelector.DEFAULT_BACK_CAMERA
+                }
+
+                cameraProvider.unbindAll()
+                val boundCamera = cameraProvider.bindToLifecycle(
+                    lifecycleOwner,
+                    cameraSelector,
+                    preview,
+                    imageAnalysis,
+                )
+                camera = boundCamera
+                boundCamera.cameraControl.enableTorch(isTorchOn)
+            } catch (e: Exception) {
+                Log.e("ScanScreen", "Camera bind failed", e)
+            }
+        }, ContextCompat.getMainExecutor(context))
+    }
+
+    // Clean up unbinding & executor on exit
+    DisposableEffect(lifecycleOwner) {
+        onDispose {
+            try {
+                val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+                if (cameraProviderFuture.isDone) {
+                    cameraProviderFuture.get().unbindAll()
+                }
+            } catch (e: Exception) {
+                Log.e("ScanScreen", "Error unbinding camera on dispose", e)
+            }
+            try {
+                cameraExecutor.shutdown()
+            } catch (_: Exception) {}
+            try {
+                detector.close()
+            } catch (_: Exception) {}
+        }
     }
 
     Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
         // Live Camera Preview
         AndroidView(
-            factory = { ctx ->
-                PreviewView(ctx).apply {
-                    layoutParams = ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                    )
-                    scaleType = PreviewView.ScaleType.FILL_CENTER
-                }
-            },
-            update = { previewView ->
-                val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
-                cameraProviderFuture.addListener({
-                    val cameraProvider = cameraProviderFuture.get()
-
-                    val preview = Preview.Builder().build().also {
-                        it.setSurfaceProvider(previewView.surfaceProvider)
-                    }
-
-                    val imageAnalysis = ImageAnalysis.Builder()
-                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                        .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
-                        .build()
-                        .also { analysis ->
-                            analysis.setAnalyzer(
-                                cameraExecutor,
-                                CameraXAnalyzer(detector) { results, w, h, time ->
-                                    detections = results
-                                    imageWidth = w
-                                    imageHeight = h
-                                    inferenceTime = time
-                                },
-                            )
-                        }
-
-                    val cameraSelector = if (isFrontCamera) {
-                        CameraSelector.DEFAULT_FRONT_CAMERA
-                    } else {
-                        CameraSelector.DEFAULT_BACK_CAMERA
-                    }
-
-                    try {
-                        cameraProvider.unbindAll()
-                        val boundCamera = cameraProvider.bindToLifecycle(
-                            lifecycleOwner,
-                            cameraSelector,
-                            preview,
-                            imageAnalysis,
-                        )
-                        camera = boundCamera
-                        boundCamera.cameraControl.enableTorch(isTorchOn)
-                    } catch (e: Exception) {
-                        Log.e("ScanScreen", "Failed to bind camera", e)
-                    }
-                }, ContextCompat.getMainExecutor(context))
-            },
+            factory = { previewView },
             modifier = Modifier.fillMaxSize(),
         )
 
@@ -246,37 +256,25 @@ fun ScanScreen(contentPadding: PaddingValues) {
             modifier = Modifier.fillMaxSize(),
         )
 
-        // Top Floating Control Bar
+        // Top Controls: Flash and Camera Flip
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .statusBarsPadding()
                 .padding(horizontal = 20.dp, vertical = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Surface(
-                color = Color.Black.copy(alpha = 0.6f),
-                shape = RoundedCornerShape(20.dp),
-            ) {
-                Text(
-                    text = "${inferenceTime}ms · ${detections.size} detections",
-                    color = Color.White,
-                    style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
-                )
-            }
-
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 IconButton(
                     onClick = {
                         isTorchOn = !isTorchOn
                         camera?.cameraControl?.enableTorch(isTorchOn)
                     },
                     modifier = Modifier
-                        .size(42.dp)
+                        .size(44.dp)
                         .clip(CircleShape)
-                        .background(Color.Black.copy(alpha = 0.6f)),
+                        .background(Color.Black.copy(alpha = 0.55f)),
                 ) {
                     Icon(
                         imageVector = if (isTorchOn) Icons.Rounded.FlashOn else Icons.Rounded.FlashOff,
@@ -289,9 +287,9 @@ fun ScanScreen(contentPadding: PaddingValues) {
                 IconButton(
                     onClick = { isFrontCamera = !isFrontCamera },
                     modifier = Modifier
-                        .size(42.dp)
+                        .size(44.dp)
                         .clip(CircleShape)
-                        .background(Color.Black.copy(alpha = 0.6f)),
+                        .background(Color.Black.copy(alpha = 0.55f)),
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Cameraswitch,
@@ -303,7 +301,7 @@ fun ScanScreen(contentPadding: PaddingValues) {
             }
         }
 
-        // Bottom Detection Card
+        // Bottom Caries Findings Summary Card
         Surface(
             color = MaterialTheme.colorScheme.surface,
             shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
@@ -372,31 +370,6 @@ fun ScanScreen(contentPadding: PaddingValues) {
                             )
                         }
                     }
-                }
-
-                Spacer(modifier = Modifier.height(14.dp))
-
-                Button(
-                    onClick = {
-                        if (detections.isNotEmpty()) {
-                            repository.saveRecord(detections)
-                            Toast.makeText(context, "Scan result successfully saved", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "No detections to save", Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Save,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp),
-                    )
-                    Spacer(modifier = Modifier.size(8.dp))
-                    Text("Save Scan Result", fontWeight = FontWeight.SemiBold)
                 }
             }
         }
