@@ -25,8 +25,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 /**
- * The floating bottom bar shown on a detail screen: a rounded pill matching [ExpressiveNavBar]
- * with a circular back button and the screen title.
+ * The floating bottom bar shown on a detail screen matching the inverted [ExpressiveNavBar]:
+ * Surface container with a primary-colored circular back button and crisp title text.
  */
 @Composable
 fun BackNavBar(
@@ -41,9 +41,10 @@ fun BackNavBar(
             onBack()
         },
         shape = RoundedCornerShape(32.dp),
-        color = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary,
-        shadowElevation = 6.dp,
+        color = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        tonalElevation = 2.dp,
+        shadowElevation = 8.dp,
     ) {
         Row(
             modifier = Modifier.padding(all = 8.dp),
@@ -54,19 +55,20 @@ fun BackNavBar(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surface),
+                    .background(MaterialTheme.colorScheme.primary),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                     contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onPrimary,
                 )
             }
             Text(
                 text = title,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.SemiBold,
                 style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 modifier = Modifier.padding(end = 16.dp),
             )

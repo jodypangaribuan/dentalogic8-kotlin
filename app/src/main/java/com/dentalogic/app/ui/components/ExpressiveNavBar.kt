@@ -46,9 +46,8 @@ data class NavBarItem(
 )
 
 /**
- * A Material 3 "expressive" style bottom bar: a floating rounded container whose selected
- * item animates into a filled pill that reveals its label. Purely presentational —
- * selection state and clicks are hoisted to the caller.
+ * A Material 3 "expressive" style bottom bar with inverted theme:
+ * Surface background (White/Slate) with Primary Blue active pill and crisp unselected items.
  */
 @Composable
 fun ExpressiveNavBar(
@@ -60,10 +59,10 @@ fun ExpressiveNavBar(
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(32.dp),
-        color = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary,
-        tonalElevation = 0.dp,
-        shadowElevation = 6.dp,
+        color = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        tonalElevation = 2.dp,
+        shadowElevation = 8.dp,
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
@@ -89,7 +88,7 @@ private fun NavBarPill(
 ) {
     val containerColor by animateColorAsState(
         targetValue = if (selected) {
-            MaterialTheme.colorScheme.surface
+            MaterialTheme.colorScheme.primary
         } else {
             Color.Transparent
         },
@@ -98,9 +97,9 @@ private fun NavBarPill(
     )
     val contentColor by animateColorAsState(
         targetValue = if (selected) {
-            MaterialTheme.colorScheme.primary
-        } else {
             MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant
         },
         animationSpec = tween(durationMillis = 350, easing = EMPHASIZED_EASING),
         label = "navPillContent",
