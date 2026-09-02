@@ -5,8 +5,6 @@
   </picture>
 </p>
 
-<h1 align="center">Dentalogic8</h1>
-
 <p align="center">
   <strong>Smart Real-Time Dental Caries Detection & ICDAS Staging Powered by On-Device YOLOv12 AI</strong>
 </p>
