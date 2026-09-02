@@ -1,6 +1,7 @@
 package com.dentalogic.app.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -46,12 +48,16 @@ import com.dentalogic.app.data.ScanRecord
 
 /**
  * Screen showing historical scans using Material 3 Expressive grouped list items.
+ * Each history card is clickable and opens the detailed scan dialog.
  */
 @Composable
-fun HistoryScreen(contentPadding: PaddingValues) {
+fun HistoryScreen(
+    contentPadding: PaddingValues,
+    onSelectRecord: (ScanRecord) -> Unit,
+) {
     val context = LocalContext.current
     val repository = remember { ScanHistoryRepository(context) }
-    val records by remember { mutableStateOf(repository.getRecords()) }
+    val records = remember(repository) { repository.getRecords() }
 
     LazyColumn(
         modifier = Modifier
@@ -111,13 +117,14 @@ fun HistoryScreen(contentPadding: PaddingValues) {
         } else {
             item(key = "records_list") {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(24.dp)),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     records.forEach { record ->
-                        HistoryCard(record = record)
+                        HistoryCard(
+                            record = record,
+                            onClick = { onSelectRecord(record) },
+                        )
                     }
                 }
             }
@@ -126,15 +133,22 @@ fun HistoryScreen(contentPadding: PaddingValues) {
 }
 
 @Composable
-private fun HistoryCard(record: ScanRecord) {
+private fun HistoryCard(
+    record: ScanRecord,
+    onClick: () -> Unit,
+) {
     val condition = DentalCondition.fromClassName(record.highestSeverity)
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(4.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(18.dp))
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
@@ -158,16 +172,27 @@ private fun HistoryCard(record: ScanRecord) {
                     )
                 }
 
-                Surface(
-                    shape = RoundedCornerShape(12.dp),
-                    color = condition.color.copy(alpha = 0.15f),
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
-                    Text(
-                        text = "${record.riskLevel} Risk",
-                        color = condition.color,
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = condition.color.copy(alpha = 0.15f),
+                    ) {
+                        Text(
+                            text = "${record.riskLevel} Risk",
+                            color = condition.color,
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                        )
+                    }
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
+                        contentDescription = "View Details",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                        modifier = Modifier.size(18.dp),
                     )
                 }
             }
@@ -180,7 +205,7 @@ private fun HistoryCard(record: ScanRecord) {
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Text(
-                text = "${record.totalDetections} caries findings detected.",
+                text = "${record.totalDetections} caries findings detected. Tap to inspect clinical details.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -192,10 +217,10 @@ private fun HistoryCard(record: ScanRecord) {
                         val count = record.cariesCounts[code] ?: 0
                         val chipCond = DentalCondition.fromClassName(code)
                         AssistChip(
-                            onClick = {},
+                            onClick = onClick,
                             label = { Text("$code ($count)", fontSize = 11.sp) },
                             colors = AssistChipDefaults.assistChipColors(
-                                containerColor = chipCond.color.copy(alpha = 0.1f),
+                                containerColor = chipCond.color.copy(alpha = 0.12f),
                                 labelColor = chipCond.color,
                             ),
                             border = null,

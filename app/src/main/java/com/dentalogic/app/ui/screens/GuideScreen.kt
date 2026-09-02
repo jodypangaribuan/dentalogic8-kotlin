@@ -1,5 +1,6 @@
 package com.dentalogic.app.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,12 +25,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dentalogic.app.core.DentalCondition
 
 /**
- * Educational Guide Screen explaining the ICDAS (D0-D6) Dental Caries classification system.
+ * Educational Guide Screen explaining the ICDAS (D0-D6) Dental Caries classification system
+ * using dedicated custom illustration icons for each clinical stage.
  */
 @Composable
 fun GuideScreen(contentPadding: PaddingValues) {
@@ -46,13 +49,13 @@ fun GuideScreen(contentPadding: PaddingValues) {
         item(key = "header") {
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
                 Text(
-                    text = "Classification Guide",
+                    text = "Clinical Guide",
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "ICDAS (International Caries Detection and Assessment System) Standard",
+                    text = "ICDAS-II (International Caries Detection & Assessment)",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -64,7 +67,7 @@ fun GuideScreen(contentPadding: PaddingValues) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(24.dp)),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 conditions.forEach { condition ->
                     ConditionGuideCard(condition = condition)
@@ -78,10 +81,11 @@ fun GuideScreen(contentPadding: PaddingValues) {
 private fun ConditionGuideCard(condition: DentalCondition) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(4.dp),
+        shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
     ) {
         Row(
             modifier = Modifier
@@ -89,21 +93,30 @@ private fun ConditionGuideCard(condition: DentalCondition) {
                 .padding(16.dp),
             verticalAlignment = Alignment.Top,
         ) {
-            Box(
+            Surface(
                 modifier = Modifier
-                    .size(44.dp)
-                    .clip(CircleShape)
-                    .background(condition.color.copy(alpha = 0.15f)),
-                contentAlignment = Alignment.Center,
+                    .size(56.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+                shape = RoundedCornerShape(16.dp),
+                color = condition.color.copy(alpha = 0.12f),
             ) {
-                Text(
-                    text = condition.code,
-                    color = condition.color,
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.titleMedium,
-                )
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Image(
+                        painter = painterResource(condition.iconRes),
+                        contentDescription = condition.title,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .size(46.dp)
+                            .padding(2.dp),
+                    )
+                }
             }
+
             Spacer(modifier = Modifier.width(16.dp))
+
             Column(modifier = Modifier.weight(1f)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -111,31 +124,33 @@ private fun ConditionGuideCard(condition: DentalCondition) {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = condition.title,
+                        text = "${condition.code} · ${condition.title}",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.weight(1f, fill = false),
                     )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Surface(
+                        shape = RoundedCornerShape(8.dp),
+                        color = condition.color.copy(alpha = 0.15f),
+                    ) {
+                        Text(
+                            text = condition.severityLevel,
+                            color = condition.color,
+                            style = MaterialTheme.typography.labelSmall,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+                        )
+                    }
                 }
+
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = condition.description,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                Spacer(modifier = Modifier.height(6.dp))
-                Surface(
-                    shape = RoundedCornerShape(8.dp),
-                    color = condition.color.copy(alpha = 0.1f),
-                ) {
-                    Text(
-                        text = "Severity: ${condition.severityLevel}",
-                        color = condition.color,
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                    )
-                }
             }
         }
     }

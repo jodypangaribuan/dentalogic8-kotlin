@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,11 +34,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.dentalogic.app.R
+import com.dentalogic.app.data.ScanHistoryRepository
+import com.dentalogic.app.data.ScanRecord
 import com.dentalogic.app.ui.components.BackNavBar
 import com.dentalogic.app.ui.components.ExpressiveNavBar
 import com.dentalogic.app.ui.components.NavBarItem
@@ -47,6 +51,7 @@ import com.dentalogic.app.ui.screens.HistoryScreen
 import com.dentalogic.app.ui.screens.HomeScreen
 import com.dentalogic.app.ui.screens.ProfileRoute
 import com.dentalogic.app.ui.screens.ProfileTab
+import com.dentalogic.app.ui.screens.ScanDetailScreen
 import com.dentalogic.app.ui.screens.ScanScreen
 import com.dentalogic.app.ui.theme.AppTheme
 import com.dentalogic.app.ui.theme.isDark
@@ -64,16 +69,20 @@ fun MainScreen(
 
     var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
     var profileRoute by rememberSaveable { mutableStateOf(ProfileRoute.List) }
+    var selectedScanRecord by remember { mutableStateOf<ScanRecord?>(null) }
     val tabs = NavTab.entries
     val currentTab = tabs[selectedIndex]
     val haptics = LocalHapticFeedback.current
 
+    val inScanDetailScreen = selectedScanRecord != null
     val inProfileSubScreen = currentTab == NavTab.PROFILE && profileRoute != ProfileRoute.List
     val isScanTab = currentTab == NavTab.SCAN
-    val showBackNavBar = isScanTab || inProfileSubScreen
+    val showBackNavBar = isScanTab || inProfileSubScreen || inScanDetailScreen
 
     val handleBack: () -> Unit = {
-        if (inProfileSubScreen) {
+        if (inScanDetailScreen) {
+            selectedScanRecord = null
+        } else if (inProfileSubScreen) {
             profileRoute = ProfileRoute.List
         } else if (isScanTab) {
             selectedIndex = NavTab.HOME.ordinal
@@ -116,29 +125,47 @@ fun MainScreen(
                 )
             }
 
-            // Main Tab Content with fluid transition
-            AnimatedContent(
-                targetState = currentTab,
-                transitionSpec = {
-                    fadeIn(animationSpec = tween(280)) togetherWith fadeOut(animationSpec = tween(200))
-                },
-                label = "mainTabTransition",
-            ) { tab ->
-                when (tab) {
-                    NavTab.HOME -> HomeScreen(
-                        contentPadding = contentPadding,
-                        onNavigateToScan = { selectedIndex = NavTab.SCAN.ordinal },
-                    )
-                    NavTab.SCAN -> ScanScreen(contentPadding = contentPadding)
-                    NavTab.HISTORY -> HistoryScreen(contentPadding = contentPadding)
-                    NavTab.GUIDE -> GuideScreen(contentPadding = contentPadding)
-                    NavTab.PROFILE -> ProfileTab(
-                        contentPadding = contentPadding,
-                        route = profileRoute,
-                        currentTheme = currentTheme,
-                        onThemeChange = onThemeChange,
-                        onOpenChangelog = { profileRoute = ProfileRoute.Changelog },
-                    )
+            val currentRecord = selectedScanRecord
+            if (inScanDetailScreen && currentRecord != null) {
+                val context = LocalContext.current
+                val repository = remember { ScanHistoryRepository(context) }
+                ScanDetailScreen(
+                    record = currentRecord,
+                    contentPadding = contentPadding,
+                    onDelete = {
+                        repository.deleteRecord(currentRecord.id)
+                        selectedScanRecord = null
+                    },
+                )
+            } else {
+                // Main Tab Content with fluid transition
+                AnimatedContent(
+                    targetState = currentTab,
+                    transitionSpec = {
+                        fadeIn(animationSpec = tween(280)) togetherWith fadeOut(animationSpec = tween(200))
+                    },
+                    label = "mainTabTransition",
+                ) { tab ->
+                    when (tab) {
+                        NavTab.HOME -> HomeScreen(
+                            contentPadding = contentPadding,
+                            onNavigateToScan = { selectedIndex = NavTab.SCAN.ordinal },
+                            onSelectRecord = { record -> selectedScanRecord = record },
+                        )
+                        NavTab.SCAN -> ScanScreen(contentPadding = contentPadding)
+                        NavTab.HISTORY -> HistoryScreen(
+                            contentPadding = contentPadding,
+                            onSelectRecord = { record -> selectedScanRecord = record },
+                        )
+                        NavTab.GUIDE -> GuideScreen(contentPadding = contentPadding)
+                        NavTab.PROFILE -> ProfileTab(
+                            contentPadding = contentPadding,
+                            route = profileRoute,
+                            currentTheme = currentTheme,
+                            onThemeChange = onThemeChange,
+                            onOpenChangelog = { profileRoute = ProfileRoute.Changelog },
+                        )
+                    }
                 }
             }
 
@@ -183,6 +210,7 @@ fun MainScreen(
 
             if (showBackNavBar) {
                 val subTitle = when {
+                    inScanDetailScreen -> "Scan Details"
                     isScanTab -> stringResource(R.string.nav_scan)
                     profileRoute == ProfileRoute.Changelog -> stringResource(R.string.changelog_title)
                     else -> stringResource(R.string.profile_version)

@@ -1,6 +1,8 @@
 package com.dentalogic.app.core
 
+import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
+import com.dentalogic.app.R
 import com.dentalogic.app.ui.theme.ColorHealthy
 import com.dentalogic.app.ui.theme.ColorMild
 import com.dentalogic.app.ui.theme.ColorModerate
@@ -15,6 +17,7 @@ enum class DentalCondition(
     val description: String,
     val severityLevel: String,
     val color: Color,
+    @DrawableRes val iconRes: Int,
 ) {
     D0(
         code = "D0",
@@ -22,6 +25,7 @@ enum class DentalCondition(
         description = "No evidence of visible dental caries or enamel lesions.",
         severityLevel = "Normal",
         color = ColorHealthy,
+        iconRes = R.drawable.ic_d0,
     ),
     D1(
         code = "D1",
@@ -29,6 +33,7 @@ enum class DentalCondition(
         description = "First visual change in enamel (white/brown spot) seen only after prolonged air drying.",
         severityLevel = "Mild",
         color = ColorMild,
+        iconRes = R.drawable.ic_d1,
     ),
     D2(
         code = "D2",
@@ -36,6 +41,7 @@ enum class DentalCondition(
         description = "Distinct visual change in enamel visible even when wet.",
         severityLevel = "Mild",
         color = ColorMild,
+        iconRes = R.drawable.ic_d2,
     ),
     D3(
         code = "D3",
@@ -43,6 +49,7 @@ enum class DentalCondition(
         description = "Micro-cavitation in enamel without visible underlying dentin.",
         severityLevel = "Moderate",
         color = ColorModerate,
+        iconRes = R.drawable.ic_d3,
     ),
     D4(
         code = "D4",
@@ -50,6 +57,7 @@ enum class DentalCondition(
         description = "Dark shadow of dentin shining through intact or minimally broken enamel.",
         severityLevel = "Moderate",
         color = ColorModerate,
+        iconRes = R.drawable.ic_d4,
     ),
     D5(
         code = "D5",
@@ -57,6 +65,7 @@ enum class DentalCondition(
         description = "Cavitation exposing underlying dentin surface.",
         severityLevel = "Severe",
         color = ColorSevere,
+        iconRes = R.drawable.ic_d5,
     ),
     D6(
         code = "D6",
@@ -64,6 +73,7 @@ enum class DentalCondition(
         description = "Extensive distinct cavity involving pulp with high risk of infection.",
         severityLevel = "Critical",
         color = ColorSevere,
+        iconRes = R.drawable.ic_d6,
     );
 
     companion object {

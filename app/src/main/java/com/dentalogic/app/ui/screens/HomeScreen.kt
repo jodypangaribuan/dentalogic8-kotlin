@@ -53,6 +53,7 @@ import com.dentalogic.app.R
 import com.dentalogic.app.core.DentalCondition
 import com.dentalogic.app.core.DetectionResult
 import com.dentalogic.app.data.ScanHistoryRepository
+import com.dentalogic.app.data.ScanRecord
 import com.dentalogic.app.inference.YoloOnnxDetector
 import com.dentalogic.app.ui.components.UploadAnalysisDialog
 import kotlinx.coroutines.Dispatchers
@@ -66,6 +67,7 @@ import kotlinx.coroutines.withContext
 fun HomeScreen(
     contentPadding: PaddingValues,
     onNavigateToScan: () -> Unit,
+    onSelectRecord: ((ScanRecord) -> Unit)? = null,
 ) {
     val context = LocalContext.current
     val repository = remember { ScanHistoryRepository(context) }
@@ -96,7 +98,7 @@ fun HomeScreen(
                             detector.detect(bitmap)
                         }
                         if (detections.isNotEmpty()) {
-                            repository.saveRecord(detections)
+                            repository.saveRecord(detections = detections, bitmap = bitmap)
                             historyRecords = repository.getRecords()
                         }
                         analyzedBitmap = bitmap
@@ -243,7 +245,12 @@ fun HomeScreen(
             // Latest Status Summary Card
             item(key = "latest_status") {
                 Surface(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(24.dp))
+                        .clickable(enabled = latestRecord != null) {
+                            latestRecord?.let { onSelectRecord?.invoke(it) }
+                        },
                     shape = RoundedCornerShape(24.dp),
                     color = MaterialTheme.colorScheme.surface,
                     shadowElevation = 1.dp,
@@ -261,11 +268,22 @@ fun HomeScreen(
                                 color = MaterialTheme.colorScheme.onSurface,
                             )
                             latestRecord?.let {
-                                Text(
-                                    text = it.dateFormatted,
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                )
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                                ) {
+                                    Text(
+                                        text = it.dateFormatted,
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    )
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
+                                        contentDescription = "Details",
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        modifier = Modifier.size(16.dp),
+                                    )
+                                }
                             }
                         }
 
@@ -290,7 +308,7 @@ fun HomeScreen(
                             }
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = "Total ${latestRecord.totalDetections} caries instances detected.",
+                                text = "Total ${latestRecord.totalDetections} caries instances detected. Tap to inspect details.",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
