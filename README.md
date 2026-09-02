@@ -16,6 +16,9 @@
   <img src="https://img.shields.io/badge/AI%20Engine-ONNX%20Runtime%20Mobile-005CED?style=for-the-badge&logo=onnx&logoColor=white" alt="ONNX">
   <img src="https://img.shields.io/badge/Model-YOLOv12%20ICDAS-FF6F00?style=for-the-badge" alt="YOLOv12">
   <img src="https://img.shields.io/badge/Version-2.2.0-0284C7?style=for-the-badge" alt="Version">
+  <a href="https://github.com/jodypangaribuan/dentalogic8-kotlin/stargazers">
+    <img src="https://img.shields.io/github/stars/jodypangaribuan/dentalogic8-kotlin?style=for-the-badge&logo=star&color=EAB308" alt="GitHub Stars">
+  </a>
 </p>
 
 ---
@@ -194,20 +197,6 @@ adb shell am start -n com.dentalogic.app/.MainActivity
 - **Custom Illustration Suite**: Fully customized 3D-style icons for navigation bar, home cards, and clinical guides.
 - **Dynamic Dual-Themed Branding**: Auto-switching app logos (`logo.png` & `logo_dark.png`) and custom gradient background wallpapers.
 - **Full-Page Scan Details**: Comprehensive inspection screen with bounding box overlay and clinical risk assessment.
-
----
-
-## Star History
-
-<p align="center">
-  <a href="https://star-history.com/#jodypangaribuan/dentalogic8-kotlin&Date">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=jodypangaribuan/dentalogic8-kotlin&type=Date&theme=dark" />
-      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=jodypangaribuan/dentalogic8-kotlin&type=Date" />
-      <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=jodypangaribuan/dentalogic8-kotlin&type=Date" />
-    </picture>
-  </a>
-</p>
 
 ---
 
