@@ -158,13 +158,31 @@ cd dentalogic8-kotlin
 # Build Debug APK
 ./gradlew assembleDebug
 
-# Output APK path
+# Output APK location:
 # app/build/outputs/apk/debug/app-debug.apk
 ```
 
-### Installing on Device via ADB
+### How to Run
+
+#### Option 1: Using Android Studio (Recommended)
+1. Open **Android Studio** (Ladybug 2024.2.1 or newer).
+2. Select **Open** and choose the `dentalogic8-kotlin` project folder.
+3. Wait for the Gradle project sync to complete.
+4. Connect an Android device (via USB or Wireless ADB) with **USB Debugging** enabled.
+   > **Note**: A physical device is strongly recommended to test real-time CameraX preview, flashlight torch, and ONNX neural network inference.
+5. Select your target device in the toolbar and click **Run** (`Shift + F10` or the green Play icon).
+6. Grant the **Camera Permission** when prompted on the initial launch.
+
+#### Option 2: Using Command Line & ADB
 ```bash
-adb install -r app/build/outputs/apk/debug/app-debug.apk
+# Ensure your device is connected and authorized
+adb devices
+
+# Build, install, and launch directly to connected device
+./gradlew installDebug
+
+# Launch the main application activity
+adb shell am start -n com.dentalogic.app/.MainActivity
 ```
 
 ---
@@ -176,6 +194,20 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 - **Custom Illustration Suite**: Fully customized 3D-style icons for navigation bar, home cards, and clinical guides.
 - **Dynamic Dual-Themed Branding**: Auto-switching app logos (`logo.png` & `logo_dark.png`) and custom gradient background wallpapers.
 - **Full-Page Scan Details**: Comprehensive inspection screen with bounding box overlay and clinical risk assessment.
+
+---
+
+## Star History
+
+<p align="center">
+  <a href="https://star-history.com/#jodypangaribuan/dentalogic8-kotlin&Date">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=jodypangaribuan/dentalogic8-kotlin&type=Date&theme=dark" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=jodypangaribuan/dentalogic8-kotlin&type=Date" />
+      <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=jodypangaribuan/dentalogic8-kotlin&type=Date" />
+    </picture>
+  </a>
+</p>
 
 ---
 
