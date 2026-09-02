@@ -91,29 +91,14 @@ private fun ConditionGuideCard(condition: DentalCondition) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.Top,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Surface(
-                modifier = Modifier
-                    .size(56.dp)
-                    .clip(RoundedCornerShape(16.dp)),
-                shape = RoundedCornerShape(16.dp),
-                color = condition.color.copy(alpha = 0.12f),
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Image(
-                        painter = painterResource(condition.iconRes),
-                        contentDescription = condition.title,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier
-                            .size(46.dp)
-                            .padding(2.dp),
-                    )
-                }
-            }
+            Image(
+                painter = painterResource(condition.iconRes),
+                contentDescription = condition.title,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(56.dp),
+            )
 
             Spacer(modifier = Modifier.width(16.dp))
 

@@ -3,13 +3,17 @@ package com.dentalogic.app.core
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
 import com.dentalogic.app.R
-import com.dentalogic.app.ui.theme.ColorHealthy
-import com.dentalogic.app.ui.theme.ColorMild
-import com.dentalogic.app.ui.theme.ColorModerate
-import com.dentalogic.app.ui.theme.ColorSevere
+import com.dentalogic.app.ui.theme.ColorD0
+import com.dentalogic.app.ui.theme.ColorD1
+import com.dentalogic.app.ui.theme.ColorD2
+import com.dentalogic.app.ui.theme.ColorD3
+import com.dentalogic.app.ui.theme.ColorD4
+import com.dentalogic.app.ui.theme.ColorD5
+import com.dentalogic.app.ui.theme.ColorD6
 
 /**
- * Classification of dental caries condition (ICDAS based D0 - D6 scale).
+ * Classification of dental caries condition (ICDAS based D0 - D6 scale)
+ * with color tokens harmonized to each condition's visual illustration badge.
  */
 enum class DentalCondition(
     val code: String,
@@ -24,7 +28,7 @@ enum class DentalCondition(
         title = "Healthy Tooth (Sound)",
         description = "No evidence of visible dental caries or enamel lesions.",
         severityLevel = "Normal",
-        color = ColorHealthy,
+        color = ColorD0,
         iconRes = R.drawable.ic_d0,
     ),
     D1(
@@ -32,7 +36,7 @@ enum class DentalCondition(
         title = "Initial Enamel Lesion",
         description = "First visual change in enamel (white/brown spot) seen only after prolonged air drying.",
         severityLevel = "Mild",
-        color = ColorMild,
+        color = ColorD1,
         iconRes = R.drawable.ic_d1,
     ),
     D2(
@@ -40,7 +44,7 @@ enum class DentalCondition(
         title = "Distinct Enamel Lesion",
         description = "Distinct visual change in enamel visible even when wet.",
         severityLevel = "Mild",
-        color = ColorMild,
+        color = ColorD2,
         iconRes = R.drawable.ic_d2,
     ),
     D3(
@@ -48,7 +52,7 @@ enum class DentalCondition(
         title = "Localized Enamel Breakdown",
         description = "Micro-cavitation in enamel without visible underlying dentin.",
         severityLevel = "Moderate",
-        color = ColorModerate,
+        color = ColorD3,
         iconRes = R.drawable.ic_d3,
     ),
     D4(
@@ -56,7 +60,7 @@ enum class DentalCondition(
         title = "Underlying Dentin Shadow",
         description = "Dark shadow of dentin shining through intact or minimally broken enamel.",
         severityLevel = "Moderate",
-        color = ColorModerate,
+        color = ColorD4,
         iconRes = R.drawable.ic_d4,
     ),
     D5(
@@ -64,7 +68,7 @@ enum class DentalCondition(
         title = "Distinct Cavity with Visible Dentin",
         description = "Cavitation exposing underlying dentin surface.",
         severityLevel = "Severe",
-        color = ColorSevere,
+        color = ColorD5,
         iconRes = R.drawable.ic_d5,
     ),
     D6(
@@ -72,7 +76,7 @@ enum class DentalCondition(
         title = "Extensive Cavity Involving Pulp",
         description = "Extensive distinct cavity involving pulp with high risk of infection.",
         severityLevel = "Critical",
-        color = ColorSevere,
+        color = ColorD6,
         iconRes = R.drawable.ic_d6,
     );
 

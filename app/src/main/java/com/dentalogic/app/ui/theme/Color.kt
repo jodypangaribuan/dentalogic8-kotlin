@@ -54,8 +54,16 @@ val SkySurfaceVariantDark = Color(0xFF1E2D3F)
 val SkyOnSurfaceVariantDark = Color(0xFF94A3B8)
 val SkyOutlineDark = Color(0xFF334B64)
 
-// Clinical severity indicator colors for caries classification (D0 - D6)
-val ColorHealthy = Color(0xFF10B981) // D0 - Healthy (Emerald)
-val ColorMild = Color(0xFFF59E0B)    // D1..D2 - Enamel Lesion (Amber)
-val ColorModerate = Color(0xFFF97316)// D3..D4 - Dentin Shadow (Orange)
-val ColorSevere = Color(0xFFEF4444)  // D5..D6 - Cavity / Pulp (Red)
+// Clinical condition colors specifically matching D0 - D6 icons
+val ColorD0 = Color(0xFF0288D1) // D0 - Sky Blue / Cyan matching D0 icon
+val ColorD1 = Color(0xFFD97706) // D1 - Gold / Amber matching D1 icon
+val ColorD2 = Color(0xFFF59E0B) // D2 - Amber Orange matching D2 icon
+val ColorD3 = Color(0xFFF97316) // D3 - Coral Orange matching D3 icon
+val ColorD4 = Color(0xFFEA580C) // D4 - Deep Orange-Red matching D4 icon
+val ColorD5 = Color(0xFFEF4444) // D5 - Crimson Red matching D5 icon
+val ColorD6 = Color(0xFF7C3AED) // D6 - Vibrant Purple / Violet matching D6 icon
+
+val ColorHealthy = ColorD0
+val ColorMild = ColorD2
+val ColorModerate = ColorD3
+val ColorSevere = ColorD5
