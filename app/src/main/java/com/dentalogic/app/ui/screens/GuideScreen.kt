@@ -52,7 +52,7 @@ fun GuideScreen(contentPadding: PaddingValues) {
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = "ICDAS-II (International Caries Detection & Assessment)",
+                    text = "ICDAS (International Caries Detection & Assessment)",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

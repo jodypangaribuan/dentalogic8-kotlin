@@ -4,6 +4,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
+import com.dentalogic.app.R
 
 private val SkyLightColorScheme = lightColorScheme(
     primary = SkyPrimaryLight,
@@ -53,6 +56,16 @@ private val SkyDarkColorScheme = darkColorScheme(
     outline = SkyOutlineDark,
 )
 
+val LocalIsDarkTheme = staticCompositionLocalOf { false }
+
+/**
+ * Returns the appropriate app logo drawable resource based on the active theme mode.
+ */
+@Composable
+fun getAppLogoRes(): Int {
+    return if (LocalIsDarkTheme.current) R.drawable.app_logo_dark else R.drawable.app_logo
+}
+
 /**
  * App theme for Dentalogic8.
  * Utilizes Option 3: Tailwind Sky Blue palette (#0284C7 & #E0F2FE) across light and dark modes.
@@ -65,9 +78,11 @@ fun DentalogicTheme(
     val darkTheme = appTheme.isDark()
     val colorScheme = if (darkTheme) SkyDarkColorScheme else SkyLightColorScheme
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = APP_TYPOGRAPHY,
-        content = content,
-    )
+    CompositionLocalProvider(LocalIsDarkTheme provides darkTheme) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = APP_TYPOGRAPHY,
+            content = content,
+        )
+    }
 }

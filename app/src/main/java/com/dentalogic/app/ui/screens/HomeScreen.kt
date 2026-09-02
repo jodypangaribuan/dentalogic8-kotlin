@@ -146,7 +146,7 @@ fun HomeScreen(
                     }
 
                     Image(
-                        painter = painterResource(R.drawable.app_logo),
+                        painter = painterResource(com.dentalogic.app.ui.theme.getAppLogoRes()),
                         contentDescription = "Dentalogic8 Logo",
                         modifier = Modifier
                             .height(72.dp)

@@ -168,10 +168,10 @@ private fun AppHeader() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
-            painter = painterResource(R.drawable.app_logo),
+            painter = painterResource(com.dentalogic.app.ui.theme.getAppLogoRes()),
             contentDescription = stringResource(R.string.app_icon_description),
             modifier = Modifier
-                .height(110.dp)
+                .height(96.dp)
                 .fillMaxWidth(),
         )
         Text(
