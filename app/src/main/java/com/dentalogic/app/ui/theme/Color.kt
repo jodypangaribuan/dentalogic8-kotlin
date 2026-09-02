@@ -56,8 +56,8 @@ val SkyOutlineDark = Color(0xFF334B64)
 
 // Clinical condition colors specifically matching D0 - D6 icons
 val ColorD0 = Color(0xFF0288D1) // D0 - Sky Blue / Cyan matching D0 icon
-val ColorD1 = Color(0xFFD97706) // D1 - Gold / Amber matching D1 icon
-val ColorD2 = Color(0xFFF59E0B) // D2 - Amber Orange matching D2 icon
+val ColorD1 = Color(0xFFF59E0B) // D1 - Bright Gold / Yellow matching D1 icon
+val ColorD2 = Color(0xFFD97706) // D2 - Warm Amber Orange matching D2 icon
 val ColorD3 = Color(0xFFF97316) // D3 - Coral Orange matching D3 icon
 val ColorD4 = Color(0xFFEA580C) // D4 - Deep Orange-Red matching D4 icon
 val ColorD5 = Color(0xFFEF4444) // D5 - Crimson Red matching D5 icon

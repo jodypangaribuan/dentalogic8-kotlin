@@ -1,9 +1,7 @@
 package com.dentalogic.app.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -24,7 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,7 +30,7 @@ import com.dentalogic.app.core.DentalCondition
 
 /**
  * Educational Guide Screen explaining the ICDAS (D0-D6) Dental Caries classification system
- * using dedicated custom illustration icons for each clinical stage.
+ * using dedicated custom illustration icons and right-aligned condition tag badges.
  */
 @Composable
 fun GuideScreen(contentPadding: PaddingValues) {
@@ -64,9 +61,7 @@ fun GuideScreen(contentPadding: PaddingValues) {
 
         item(key = "conditions_group") {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(24.dp)),
+                modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 conditions.forEach { condition ->
@@ -91,13 +86,15 @@ private fun ConditionGuideCard(condition: DentalCondition) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.Top,
         ) {
             Image(
                 painter = painterResource(condition.iconRes),
                 contentDescription = condition.title,
                 contentScale = ContentScale.Fit,
-                modifier = Modifier.size(56.dp),
+                modifier = Modifier
+                    .size(56.dp)
+                    .padding(top = 2.dp),
             )
 
             Spacer(modifier = Modifier.width(16.dp))
@@ -131,6 +128,7 @@ private fun ConditionGuideCard(condition: DentalCondition) {
                 }
 
                 Spacer(modifier = Modifier.height(4.dp))
+
                 Text(
                     text = condition.description,
                     style = MaterialTheme.typography.bodySmall,
